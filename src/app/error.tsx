@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
+import { useEffect } from "react"
 
 export default function Error({
   error,
   unstable_retry,
 }: {
-  error: Error & { digest?: string };
-  unstable_retry: () => void;
+  error: Error & { digest?: string }
+  unstable_retry: () => void
 }) {
   useEffect(() => {
-    console.error(error);
-  }, [error]);
+    console.error(error)
+  }, [error])
 
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
@@ -32,5 +32,5 @@ export default function Error({
         Try again
       </button>
     </main>
-  );
+  )
 }

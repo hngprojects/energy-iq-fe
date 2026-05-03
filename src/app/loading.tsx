@@ -7,5 +7,5 @@ export default function Loading() {
     >
       <div className="border-muted-foreground/30 border-t-foreground h-8 w-8 animate-spin rounded-full border-2" />
     </div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export default function Unauthorized() {
   return (
@@ -15,5 +15,5 @@ export default function Unauthorized() {
         Return home
       </Link>
     </main>
-  );
+  )
 }

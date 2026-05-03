@@ -1,5 +1,5 @@
-import type { MetadataRoute } from "next";
-import { env } from "@/env/client";
+import type { MetadataRoute } from "next"
+import { env } from "@/env/client"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -9,5 +9,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-  ];
+  ]
 }
