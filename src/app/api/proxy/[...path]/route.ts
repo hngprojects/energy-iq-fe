@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { env } from "@/env/server"
 
 const API_BASE_URL = env.API_BASE_URL
+
 const buildBackendUrl = (path: string, search: string): string => {
   if (!API_BASE_URL) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined")
@@ -13,6 +14,7 @@ const buildBackendUrl = (path: string, search: string): string => {
     ? `${trimmedBase}/${trimmedPath}${normalizedSearch}`
     : `${trimmedBase}/${trimmedPath}`
 }
+
 const forwardRequest = async (
   backendUrl: string,
   req: Request,
@@ -27,6 +29,7 @@ const forwardRequest = async (
     redirect: "manual",
   })
 }
+
 const extractBody = async (req: Request): Promise<string | ArrayBuffer | undefined> => {
   const contentType = req.headers.get("content-type") || ""
   const isMultipart = contentType.includes("multipart/form-data")
@@ -37,6 +40,7 @@ const extractBody = async (req: Request): Promise<string | ArrayBuffer | undefin
   const textBody = await req.text()
   return textBody.length > 0 ? textBody : undefined
 }
+
 export async function GET(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
@@ -44,6 +48,7 @@ export async function GET(
   const { path } = await context.params
   return proxyRequest(req, path)
 }
+
 export async function POST(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
@@ -51,6 +56,7 @@ export async function POST(
   const { path } = await context.params
   return proxyRequest(req, path)
 }
+
 export async function PUT(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
@@ -58,6 +64,7 @@ export async function PUT(
   const { path } = await context.params
   return proxyRequest(req, path)
 }
+
 export async function PATCH(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
@@ -65,6 +72,7 @@ export async function PATCH(
   const { path } = await context.params
   return proxyRequest(req, path)
 }
+
 export async function DELETE(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
@@ -72,18 +80,20 @@ export async function DELETE(
   const { path } = await context.params
   return proxyRequest(req, path)
 }
+
 const extractPathSegments = (req: Request, paramSegments?: string[]): string[] => {
   if (Array.isArray(paramSegments) && paramSegments.length > 0) {
     return paramSegments
   }
   const { pathname } = new URL(req.url)
-  const prefix = "/api/proxy-auth/"
+  const prefix = "/api/proxy/"
   if (!pathname.startsWith(prefix)) {
     return []
   }
   const remainder = pathname.slice(prefix.length)
   return remainder.split("/").filter(Boolean)
 }
+
 async function proxyRequest(req: Request, paramSegments?: string[]) {
   try {
     const segments = extractPathSegments(req, paramSegments)
