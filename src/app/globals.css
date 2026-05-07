@@ -10,6 +10,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  --font-roboto: var(--font-roboto);
 
   /* Primary Colors */
   --color-primary: var(--primary);
