@@ -1,11 +1,13 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
+import GoogleIcon from "@/assets/GoogleIcon.svg"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -18,6 +20,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         success: "bg-success text-white hover:bg-success/90",
         warning: "bg-warning text-white hover:bg-warning/90",
+        google:
+          "border border-[#E5E7EB] bg-white text-[#111827] hover:bg-[#F9FAFB] gap-3",
       },
       size: {
         default: "h-11 px-6 py-2",
@@ -38,6 +42,7 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
@@ -52,7 +57,12 @@ function Button({
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {variant === "google" && (
+        <Image src={GoogleIcon} alt="Google Icon" className="h-5 w-5" />
+      )}
+      {children}
+    </Comp>
   )
 }
 
