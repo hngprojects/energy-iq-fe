@@ -1,10 +1,15 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, DM_Sans } from "next/font/google"
+import { Geist, Geist_Mono, DM_Sans, Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import { env } from "@/env/client"
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" })
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +44,7 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         dmSans.variable,
+        plusJakartaSans.variable,
         "font-sans"
       )}
     >
