@@ -1,7 +1,13 @@
+import { Services } from "@/components/landing/Services"
+import { HowItWorks } from "@/components/landing/how-it-works"
+import { RequestDemo } from "@/components/landing/request-demo"
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <h1 className="text-display font-bold">EnergyIQ</h1>
-    </div>
+    <>
+      <Services />
+      <HowItWorks />
+      <RequestDemo />
+    </>
   )
 }
