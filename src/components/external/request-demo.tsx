@@ -1,17 +1,12 @@
 import React from "react"
 
 import { Button } from "../ui/button"
-import Image, { StaticImageData } from "next/image"
-
-import demo_1 from "@/assets/request_demo_1.jpg"
-import demo_2 from "@/assets/request_demo_2.jpg"
-import demo_3 from "@/assets/request_demo_3.jpg"
-import demo_bg from "@/assets/request_demo_bg.png"
+import Image from "next/image"
 
 interface DemoBadgeProps {
   title: string
   description: string
-  image: StaticImageData
+  image: string
 }
 
 const DemoBadge = ({ title, description, image }: DemoBadgeProps) => {
@@ -43,17 +38,17 @@ export const RequestDemo = () => {
     {
       title: "Monitor your solar",
       description: "View real-time data on your dashboard",
-      image: demo_1,
+      image: "/images/request_demo_1.jpg",
     },
     {
       title: "Connect with multiple brands",
       description: "Connection to multiple brands.",
-      image: demo_2,
+      image: "/images/request_demo_2.jpg",
     },
     {
       title: "Today world of Solar",
       description: "Solar Energy in modern society.",
-      image: demo_3,
+      image: "/images/request_demo_3.jpg",
     },
   ]
 
@@ -63,7 +58,7 @@ export const RequestDemo = () => {
         <div className="relative isolate flex min-h-150 flex-col justify-between overflow-hidden rounded-[8px] p-6 md:p-11">
           {/* Background Image */}
           <Image
-            src={demo_bg}
+            src="/images/request_demo_bg.png"
             alt="Request a demo background"
             fill
             priority

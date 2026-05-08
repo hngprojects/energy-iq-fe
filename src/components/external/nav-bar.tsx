@@ -3,7 +3,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "../ui/button"
 import Image from "next/image"
-import logo from "@/assets/logo.svg"
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(" ")
@@ -60,10 +59,11 @@ export function Navbar() {
         >
           <div className="relative h-8 w-8 overflow-hidden rounded-full">
             <Image
-              src={logo}
+              src="/images/logo.png"
               alt="EnergyIQ Logo"
-              fill
               className="object-contain"
+              width={32}
+              height={32}
               priority
             />
           </div>

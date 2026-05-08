@@ -1,21 +1,14 @@
 import Image from "next/image"
-import logo1 from "@/assets/logos/logo1.svg"
-import logo2 from "@/assets/logos/logo2.svg"
-import logo3 from "@/assets/logos/logo3.svg"
-import logo4 from "@/assets/logos/logo4.svg"
-import logo5 from "@/assets/logos/logo5.svg"
-import logo6 from "@/assets/logos/logo6.svg"
-import logo7 from "@/assets/logos/logo7.svg"
-import logo8 from "@/assets/logos/logo8.svg"
+
 const logos = [
-  { src: logo1, alt: "Logoipsum" },
-  { src: logo2, alt: "Quantum" },
-  { src: logo3, alt: "Hexalink" },
-  { src: logo4, alt: "Apex" },
-  { src: logo5, alt: "Logoipsum 2" },
-  { src: logo6, alt: "Bubbles" },
-  { src: logo7, alt: "Predator" },
-  { src: logo8, alt: "Brand Standard" },
+  { src: "/images/logo1.svg", alt: "Logoipsum" },
+  { src: "/images/logo2.svg", alt: "Quantum" },
+  { src: "/images/logo3.svg", alt: "Hexalink" },
+  { src: "/images/logo4.svg", alt: "Apex" },
+  { src: "/images/logo5.svg", alt: "Logoipsum 2" },
+  { src: "/images/logo6.svg", alt: "Bubbles" },
+  { src: "/images/logo7.svg", alt: "Predator" },
+  { src: "/images/logo8.svg", alt: "Brand Standard" },
 ]
 export function WorksWith() {
   return (
@@ -30,6 +23,8 @@ export function WorksWith() {
               {[...logos, ...logos].map((logo, i) => (
                 <Image
                   key={i}
+                  width={32}
+                  height={32}
                   src={logo.src}
                   alt={logo.alt}
                   className="h-6 w-auto shrink-0"
@@ -41,7 +36,13 @@ export function WorksWith() {
         <div className="mt-10 hidden grid-cols-4 items-center gap-8 sm:grid md:grid lg:grid-cols-8">
           {logos.map((logo, i) => (
             <div key={i} className="flex items-center justify-center">
-              <Image src={logo.src} alt={logo.alt} className="h-6 w-auto" />
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                width={32}
+                height={32}
+                className="h-6 w-auto"
+              />
             </div>
           ))}
         </div>

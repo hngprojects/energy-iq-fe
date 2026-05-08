@@ -1,19 +1,16 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import heroImage from "@/assets/images/hero-img.jpg"
-import worker from "@/assets/images/worker.png"
-import a1 from "@/assets/images/avatar1.png"
-import a2 from "@/assets/images/avatar2.png"
-import a3 from "@/assets/images/avatar3.png"
 
 export function Hero() {
   return (
     <section className="mx-auto max-w-7xl px-4 pt-2 pb-10 md:px-8 md:pt-4 md:pb-16">
       <div className="bg-foreground relative overflow-hidden rounded-2xl md:rounded-3xl">
         <Image
-          src={heroImage}
+          src="/images/hero-img.jpg"
           alt="Modern energy-efficient glass building"
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          priority
+          className="object-cover"
         />
         <div className="from-foreground/80 via-foreground/40 to-foreground/10 md:from-foreground/85 md:via-foreground/55 absolute inset-0 bg-linear-to-b md:bg-linear-to-r md:to-transparent" />
         <div className="relative flex min-h-130 flex-col justify-center px-4 md:px-12 lg:px-2">
@@ -44,7 +41,7 @@ export function Hero() {
           <div className="absolute right-5 bottom-5 left-10 sm:left-110 sm:w-62 md:right-8 md:bottom-8 md:left-auto md:w-84">
             <div className="bg-background flex items-center gap-3 rounded-xl px-2 py-2 shadow-2xl md:rounded-2xl md:px-5 md:py-6">
               <Image
-                src={worker}
+                src="/images/worker.png"
                 alt="Engineer"
                 width={64}
                 height={64}
@@ -55,18 +52,24 @@ export function Hero() {
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     <Image
-                      src={a1}
-                      alt=""
+                      src="/images/avatar1.png"
+                      alt="a1"
+                      width={32}
+                      height={32}
                       className="border-background z-30 h-8 w-8 rounded-full border-2 object-cover"
                     />
                     <Image
-                      src={a3}
-                      alt=""
+                      src="/images/avatar2.png"
+                      alt="a2"
+                      width={32}
+                      height={32}
                       className="border-background z-20 h-8 w-8 rounded-full border-2 object-cover"
                     />
                     <Image
-                      src={a2}
-                      alt=""
+                      src="/images/avatar3.png"
+                      alt="a3"
+                      width={32}
+                      height={32}
                       className="border-background z-10 h-8 w-8 rounded-full border-2 object-cover"
                     />
                   </div>

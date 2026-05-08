@@ -1,11 +1,5 @@
 import React from "react"
 import Image from "next/image"
-import logo from "../../assets/logo.svg"
-import facebook from "../../assets/facebook.svg"
-import instagram from "../../assets/instagram.svg"
-import linkedin from "../../assets/linkedin.svg"
-import twitter from "../../assets/twitter.svg"
-import youtube from "../../assets/youtube.svg"
 
 export const Footer = () => {
   return (
@@ -13,7 +7,7 @@ export const Footer = () => {
       <div className=":xl:h-[539px] relative flex h-auto w-360 flex-col items-center bg-[#1A1F2C] px-20 py-[100] text-white sm:absolute">
         <div className="bg-blue l:h-[107px] font-roboto flex h-auto w-[60%] flex-col items-center justify-between border-b-[0.5px] border-[#E7E7E7] px-[80px] pb-[10px] md:flex-row lg:w-[80%] 2xl:w-[1440px]">
           <div className="flex h-auto w-38.5 flex-col items-center gap-2 md:h-8 md:flex-row">
-            <Image src={logo} alt="Logo" width={21.33} height={21.33} />
+            <Image src="/images/logo.svg" alt="Logo" width={21.33} height={21.33} />
             <span>
               ENERGY<span className="text-[#F5A623]">IQ</span>
             </span>
@@ -81,35 +75,35 @@ export const Footer = () => {
           </div>
           <div className="flex gap-[22px]">
             <Image
-              src={facebook}
+              src="/images/facebook.svg"
               alt="Logo"
               width={21}
               height={15}
               className="h-[15px] w-[21px]"
             />
             <Image
-              src={twitter}
+              src="/images/twitter.svg"
               alt="Logo"
               width={21}
               height={15}
               className="h-[15px] w-[21px]"
             />
             <Image
-              src={instagram}
+              src="/images/instagram.svg"
               alt="Logo"
               width={21}
               height={15}
               className="h-[15px] w-[21px]"
             />
             <Image
-              src={linkedin}
+              src="/images/linkedin.svg"
               alt="Logo"
               width={21}
               height={15}
               className="h-[15px] w-[21px]"
             />
             <Image
-              src={youtube}
+              src="/images/youtube.svg"
               alt="Logo"
               width={21}
               height={15}

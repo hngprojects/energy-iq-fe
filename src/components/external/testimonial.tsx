@@ -2,10 +2,7 @@
 
 import { HugeiconsIcon } from "@hugeicons/react"
 import { StarIcon } from "@hugeicons/core-free-icons"
-import Image, { StaticImageData } from "next/image"
-import testimonial1 from "@/assets/images/testimonial_01.png"
-import testimonial2 from "@/assets/images/testimonial_02.png"
-import testimonial3 from "@/assets/images/testimonial_03.png"
+import Image from "next/image"
 
 interface Testimonial {
   id: string
@@ -14,7 +11,7 @@ interface Testimonial {
   author: {
     name: string
     title: string
-    image: StaticImageData
+    image: string
   }
 }
 
@@ -26,7 +23,7 @@ const testimonials: Testimonial[] = [
     author: {
       name: "Amaka",
       title: "SME Owner",
-      image: testimonial1,
+      image: "/images/testimonial_01.png",
     },
   },
   {
@@ -36,7 +33,7 @@ const testimonials: Testimonial[] = [
     author: {
       name: "Tunde",
       title: "Installer",
-      image: testimonial2,
+      image: "/images/testimonial_02.png",
     },
   },
   {
@@ -46,7 +43,7 @@ const testimonials: Testimonial[] = [
     author: {
       name: "Emeka",
       title: "EPC Contractor",
-      image: testimonial3,
+      image: "/images/testimonial_03.png",
     },
   },
 ]

@@ -1,7 +1,4 @@
-import React from "react"
 import Image from "next/image"
-import cross from "../../assets/cross.svg"
-import plus from "../../assets/plus.svg"
 
 export const Faq = () => {
   return (
@@ -15,7 +12,13 @@ export const Faq = () => {
           <div className="line-height: 1 font-weight: 600 gap-4 rounded-[10px] border border-[#E9EFFD] p-5 text-xl sm:h-[257] sm:w-[4/5] lg:h-[157px] lg:w-[839px]">
             <div className="flex items-center justify-between">
               <h2 className="text-secondary">Do I need to install new hardware?</h2>
-              <Image src={cross} alt="cross" className="h-[32px] w-[32px]" />
+              <Image
+                src="/images/cross.svg"
+                alt="cross"
+                width={32}
+                height={32}
+                className="h-[32px] w-[32px]"
+              />
             </div>
             <p className="text-[#5a6070]">
               No, you don’t need to install any new hardware. EnergyIQ works with your
@@ -27,7 +30,7 @@ export const Faq = () => {
           <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Do I need to install new hardware?</h2>
             <Image
-              src={plus}
+              src="/images/plus.svg"
               alt="plus"
               width={32}
               height={32}
@@ -37,7 +40,7 @@ export const Faq = () => {
           <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Which inverter brands are supported?</h2>
             <Image
-              src={plus}
+              src="/images/plus.svg"
               alt="plus"
               width={32}
               height={32}
@@ -47,7 +50,7 @@ export const Faq = () => {
           <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Does the AI agent really speak Pidgin?</h2>
             <Image
-              src={plus}
+              src="/images/plus.svg"
               alt="plus"
               width={32}
               height={32}
@@ -57,7 +60,7 @@ export const Faq = () => {
           <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Is my data safe?</h2>
             <Image
-              src={plus}
+              src="/images/plus.svg"
               alt="plus"
               width={32}
               height={32}
@@ -67,7 +70,7 @@ export const Faq = () => {
           <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Can solar installers white‑label EnergyIQ?</h2>
             <Image
-              src={plus}
+              src="/images/plus.svg"
               alt="plus"
               width={32}
               height={32}

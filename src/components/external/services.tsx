@@ -1,14 +1,11 @@
 import React from "react"
 
-import Image, { StaticImageData } from "next/image"
-import services_1 from "@/assets/services_1.png"
-import services_2 from "@/assets/services_2.png"
-import services_3 from "@/assets/services_3.png"
+import Image from "next/image"
 
 interface ServiceCardProps {
   title: string
   description: string
-  image: StaticImageData
+  image: string
 }
 
 const ServiceCard = ({ title, description, image }: ServiceCardProps) => {
@@ -32,7 +29,10 @@ const ServiceCard = ({ title, description, image }: ServiceCardProps) => {
         </div>
 
         {/* Circular Arrow Button */}
-        <button className="bg-primary text-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-full">
+        <button
+          className="bg-primary text-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
+          aria-label={`Learn more about ${title}`}
+        >
           <svg
             width="24"
             height="24"
@@ -56,17 +56,17 @@ export const Services = () => {
     {
       title: "AI Energy Agent",
       description: "Ask questions in plain english",
-      image: services_3,
+      image: "/images/services_3.png",
     },
     {
       title: "Naira Savings Tracker",
       description: "Track daily savings vs diesel payback",
-      image: services_2,
+      image: "/images/services_2.png",
     },
     {
       title: "Whatsapp Native Alerts",
       description: "GetAlerts on battery and panel fault",
-      image: services_1,
+      image: "/images/services_1.png",
     },
   ]
 

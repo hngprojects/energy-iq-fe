@@ -1,15 +1,12 @@
 import React from "react"
 
 import { Button } from "../ui/button"
-import Image, { StaticImageData } from "next/image"
-import how_1 from "@/assets/how_it_works_1.png"
-import how_2 from "@/assets/how_it_works_2.png"
-import how_3 from "@/assets/how_it_works_3.png"
+import Image from "next/image"
 
 interface StepCardProps {
   title: string
   description: string
-  image: StaticImageData
+  image: string
 }
 
 const StepCard = ({ title, description, image }: StepCardProps) => {
@@ -37,17 +34,17 @@ export const HowItWorks = () => {
       title: "Select your Inverter type",
       description:
         "Hundreds of integrations available from our wide range of inverter types.",
-      image: how_1,
+      image: "/images/how_it_works_1.png",
     },
     {
       title: "Connect your Inverter",
       description: "Establish inverter connection through API keys.",
-      image: how_2,
+      image: "/images/how_it_works_2.png",
     },
     {
       title: "Move to Dashboard",
       description: "View and manage inverter metrics that matter to you.",
-      image: how_3,
+      image: "/images/how_it_works_3.png",
     },
   ]
 
