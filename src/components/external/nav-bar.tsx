@@ -59,7 +59,7 @@ export function Navbar() {
         >
           <div className="relative h-8 w-8 overflow-hidden rounded-full">
             <Image
-              src="/images/logo.png"
+              src="/images/logo.svg"
               alt="EnergyIQ Logo"
               className="object-contain"
               width={32}
