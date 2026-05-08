@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Figtree } from "next/font/google"
+import { Geist, Geist_Mono, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import { env } from "@/env/client"
 
-const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" })
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" })
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,8 +38,8 @@ export default function RootLayout({
         "antialiased",
         geistSans.variable,
         geistMono.variable,
-        "font-sans",
-        figtree.variable
+        dmSans.variable,
+        "font-sans"
       )}
     >
       <body className="flex min-h-full flex-col">{children}</body>
