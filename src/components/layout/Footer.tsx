@@ -10,15 +10,15 @@ import youtube from "../../assets/youtube.svg"
 export const Footer = () => {
   return (
     <footer className="flex w-full justify-center">
-      <div className="flex h-[539px] w-[1440px] flex-col items-center bg-[#1A1F2C] px-[80px] py-[100] text-white">
-        <div className="font-roboto flex h-[107px] w-[1440px] items-center justify-between border-b-[0.5px] border-[#E7E7E7] px-[80px] pb-[10px]">
-          <div className="flex h-[32px] w-[154px] items-center gap-2">
+      <div className=":xl:h-[539px] relative flex h-auto w-[1440px] flex-col items-center bg-[#1A1F2C] px-[80px] py-[100] text-white sm:absolute">
+        <div className="bg-blue l:h-[107px] font-roboto flex h-auto w-[60%] flex-col items-center justify-between border-b-[0.5px] border-[#E7E7E7] px-[80px] pb-[10px] md:flex-row lg:w-[80%] 2xl:w-[1440px]">
+          <div className="flex h-auto w-[154px] flex-col items-center gap-2 md:h-[32px] md:flex-row">
             <Image src={logo} alt="Logo" width={21.33} height={21.33} />
             <span>
               ENERGY<span className="text-[#F5A623]">IQ</span>
             </span>
           </div>
-          <div className="line-height:1 font-roboto h-[55px] w-[620px] text-[16px] font-normal text-[#E6E6E6]">
+          <div className="line-height:1 font-roboto h-auto w-[300px] text-[16px] font-normal text-[#E6E6E6] md:w-[620px] xl:h-[55px]">
             <p>
               AI-powered energy management & optimization platform for Nigerian SMEs and
               African businesses. Nigeria has the energy problem. We have the intelligence
@@ -27,8 +27,8 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="flex h-[268px] w-full justify-between gap-[32px] p-[20px]">
-          <div className="flex h-[192px] w-[203px] flex-col gap-[32px]">
+        <div className="mt-[10px] flex h-auto w-[40%] flex-col justify-between gap-[32px] p-[20px] md:w-[60%] md:flex-row lg:w-[80%] xl:h-[268px] 2xl:w-full">
+          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
             <h1 className="text-xl">Product</h1>
             <ul className="gap-2 text-lg">
               <li>Features</li>
@@ -37,7 +37,7 @@ export const Footer = () => {
               <li>Contact</li>
             </ul>
           </div>
-          <div className="flex h-[192px] w-[203px] flex-col gap-[32px]">
+          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
             <h1 className="text-xl">Company</h1>
             <ul className="gap-2 text-lg">
               <li>About</li>
@@ -46,7 +46,7 @@ export const Footer = () => {
               <li>News</li>
             </ul>
           </div>
-          <div className="flex h-[192px] w-[203px] flex-col gap-[32px]">
+          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
             <h1 className="text-xl">Resources</h1>
             <ul className="gap-2 text-lg">
               <li>Use Cases</li>
@@ -54,7 +54,7 @@ export const Footer = () => {
               <li>Help Centre</li>
             </ul>
           </div>
-          <div className="flex h-[192px] w-[203px] flex-col gap-[32px]">
+          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
             <h1 className="text-xl">Download</h1>
             <ul className="gap-2 text-lg">
               <li>Ios</li>
@@ -75,7 +75,7 @@ export const Footer = () => {
             </button>
           </div>
         </div>
-        <div className="flex w-[1440px] items-center justify-between px-[80px]">
+        <div className="flex w-[40%] flex-col items-center justify-between px-[80px] md:w-[60%] md:flex-row lg:w-[80%] 2xl:w-[1440px]">
           <div className="mt-8 pt-4 text-center text-sm">
             Copyright © {new Date().getFullYear()} BRIX Templates | All Rights Reserved .
           </div>

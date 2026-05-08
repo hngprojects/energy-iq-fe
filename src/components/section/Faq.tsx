@@ -6,13 +6,13 @@ import plus from "../../assets/plus.svg"
 export const Faq = () => {
   return (
     <section className="flex w-full justify-center">
-      <div className="flex h-[1009px] w-[1440px] flex-col items-center bg-[#FEFEFE] px-[80px] py-[100px]">
-        <div className="line-height: 1 flex h-[124px] w-[1281px] flex-col text-left text-5xl font-bold">
-          <p className="fonttext-5xl text-secondary">Frequently Asked </p>
-          <p className="fonttext-5xl text-accent-foreground">Questions</p>
+      <div className="flex h-[1009px] w-[1440px] flex-col items-center bg-[#FEFEFE] px-[10px] py-[100px] md:px-[80px]">
+        <div className="line-height: 1 flex h-[124px] flex-col text-left text-5xl font-bold md:w-[4/5] xl:w-[1281px]">
+          <p className="text-secondary text-4xl md:text-5xl">Frequently Asked </p>
+          <p className="text-accent-foreground text-4xl md:text-5xl">Questions</p>
         </div>
-        <div className="flex h-[637px] w-[839px] flex-col gap-8">
-          <div className="line-height: 1 font-weight: 600 h-[157px] w-[839px] gap-4 rounded-[10px] border border-[#E9EFFD] p-5 text-xl">
+        <div className="flex h-[637px] w-[90%] flex-col gap-8 lg:w-[839px]">
+          <div className="line-height: 1 font-weight: 600 gap-4 rounded-[10px] border border-[#E9EFFD] p-5 text-xl sm:h-[257] sm:w-[4/5] lg:h-[157px] lg:w-[839px]">
             <div className="flex items-center justify-between">
               <h2 className="text-secondary">Do I need to install new hardware?</h2>
               <Image src={cross} alt="cross" className="h-[32px] w-[32px]" />
@@ -24,7 +24,7 @@ export const Faq = () => {
               in real time.
             </p>
           </div>
-          <div className="round-[10px] flex h-[64px] w-[839px] items-center justify-between border border-[#E9EFFD] p-[20px]">
+          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Do I need to install new hardware?</h2>
             <Image
               src={plus}
@@ -34,7 +34,7 @@ export const Faq = () => {
               className="h-[32px] w-[32px]"
             />
           </div>
-          <div className="round-[10px] flex h-[64px] w-[839px] items-center justify-between border border-[#E9EFFD] p-[20px]">
+          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Which inverter brands are supported?</h2>
             <Image
               src={plus}
@@ -44,7 +44,7 @@ export const Faq = () => {
               className="h-[32px] w-[32px]"
             />
           </div>
-          <div className="round-[10px] flex h-[64px] w-[839px] items-center justify-between border border-[#E9EFFD] p-[20px]">
+          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Does the AI agent really speak Pidgin?</h2>
             <Image
               src={plus}
@@ -54,7 +54,7 @@ export const Faq = () => {
               className="h-[32px] w-[32px]"
             />
           </div>
-          <div className="round-[10px] flex h-[64px] w-[839px] items-center justify-between border border-[#E9EFFD] p-[20px]">
+          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Is my data safe?</h2>
             <Image
               src={plus}
@@ -64,7 +64,7 @@ export const Faq = () => {
               className="h-[32px] w-[32px]"
             />
           </div>
-          <div className="round-[10px] flex h-[64px] w-[839px] items-center justify-between border border-[#E9EFFD] p-[20px]">
+          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
             <h2 className="text-secondary">Can solar installers white‑label EnergyIQ?</h2>
             <Image
               src={plus}
