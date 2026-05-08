@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <h1 className="text-display font-bold">EnergyIQ</h1>
+    <div className="flex flex-1 flex-col items-center justify-center">
+      <main>ENERGYIQ</main>
     </div>
   )
 }
