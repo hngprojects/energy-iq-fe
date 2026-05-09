@@ -1,11 +1,50 @@
 import React from "react"
 import Image from "next/image"
 
+interface FooterCardProp {
+  id: string
+  title: string
+  list: string[]
+}
+const footerCards: FooterCardProp[] = [
+  {
+    id: "1",
+    title: "Product",
+    list: ["Features", "Pricing", "API Integrations", "Contact"],
+  },
+  {
+    id: "2",
+    title: "Company",
+    list: ["About", "Blog", "Career", "News"],
+  },
+  {
+    id: "3",
+    title: "Resources",
+    list: ["Use Cases", "Community", "Help Centre"],
+  },
+  {
+    id: "4",
+    title: "Download",
+    list: ["Ios", "Android", "Windows"],
+  },
+]
+const FooterCard = ({ title, list }: FooterCardProp) => {
+  return (
+    <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
+      <div className="text-xl">{title}</div>
+      <div className="gap-2 text-lg">
+        {list.map((list: string, listIndex) => (
+          <p key={listIndex}>{list}</p>
+        ))}
+      </div>
+    </div>
+  )
+}
 export const Footer = () => {
   return (
     <footer className="flex w-full justify-center">
-      <div className=":xl:h-[539px] relative flex h-auto w-360 flex-col items-center bg-[#1A1F2C] px-20 py-[100] text-white sm:absolute">
-        <div className="bg-blue l:h-[107px] font-roboto flex h-auto w-[60%] flex-col items-center justify-between border-b-[0.5px] border-[#E7E7E7] px-[80px] pb-[10px] md:flex-row lg:w-[80%] 2xl:w-[1440px]">
+      <div className="max-width:100% relative flex h-[539px] h-auto w-[1440px] flex-col items-center overflow-hidden bg-[#1A1F2C] px-[80] py-[100] text-white">
+        <div className="font-roboto flex h-[107px] h-auto flex-col items-center justify-between border-b-[0.5px] border-[#E7E7E7] px-[80px] pb-[10px] md:flex-row lg:w-[80%] 2xl:w-[1440px]">
           <div className="flex h-auto w-38.5 flex-col items-center gap-2 md:h-8 md:flex-row">
             <Image src="/images/logo.svg" alt="Logo" width={21.33} height={21.33} />
             <span>
@@ -20,42 +59,19 @@ export const Footer = () => {
             </p>
           </div>
         </div>
-
-        <div className="mt-2.5 flex h-auto w-[40%] flex-col justify-between gap-8 p-5 md:w-[60%] md:flex-row lg:w-[80%] xl:h-67 2xl:w-full">
-          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-50.75">
-            <h1 className="text-xl">Product</h1>
-            <ul className="gap-2 text-lg">
-              <li>Features</li>
-              <li>Pricing</li>
-              <li>API Integrations</li>
-              <li>Contact</li>
-            </ul>
-          </div>
-          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
-            <h1 className="text-xl">Company</h1>
-            <ul className="gap-2 text-lg">
-              <li>About</li>
-              <li>Blog</li>
-              <li>Career</li>
-              <li>News</li>
-            </ul>
-          </div>
-          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
-            <h1 className="text-xl">Resources</h1>
-            <ul className="gap-2 text-lg">
-              <li>Use Cases</li>
-              <li>Community</li>
-              <li>Help Centre</li>
-            </ul>
-          </div>
-          <div className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-[203px]">
-            <h1 className="text-xl">Download</h1>
-            <ul className="gap-2 text-lg">
-              <li>Ios</li>
-              <li>Android</li>
-              <li>Windows</li>
-            </ul>
-          </div>
+        <div className="mt-2.5 flex h-auto flex-wrap justify-between gap-8 p-5 px-[80] xl:h-67 2xl:w-[1440]">
+          {footerCards.map((footerCard) => (
+            <div
+              key={footerCard.id}
+              className="flex h-[192px] flex-col gap-[32px] md:w-[150px] 2xl:w-50.75"
+            >
+              <FooterCard
+                id={footerCard.id}
+                title={footerCard.title}
+                list={footerCard.list}
+              />
+            </div>
+          ))}
           <div className="flex h-[224px] w-[321px] flex-col items-start gap-[32px]">
             <h1 className="text-xl">Subscribe to our newsletter</h1>
             <p>Enter your email to get mails concerning us.</p>
@@ -69,11 +85,11 @@ export const Footer = () => {
             </button>
           </div>
         </div>
-        <div className="flex w-[40%] flex-col items-center justify-between px-[80px] md:w-[60%] md:flex-row lg:w-[80%] 2xl:w-[1440px]">
-          <div className="mt-8 pt-4 text-center text-sm">
+        <div className="flex w-[100%] flex-col items-center justify-between px-[80px] sm:flex-row">
+          <div className="mt-8 text-center text-sm">
             Copyright © {new Date().getFullYear()} BRIX Templates | All Rights Reserved .
           </div>
-          <div className="flex gap-[22px]">
+          <div className="flex items-center gap-[22px]">
             <Image
               src="/images/facebook.svg"
               alt="Logo"
