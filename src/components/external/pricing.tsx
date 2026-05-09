@@ -85,7 +85,7 @@ export function PricingSection() {
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly")
 
   return (
-    <section className="w-full bg-white px-4 py-25">
+    <section className="w-full bg-white px-4 py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <h2 className="text-title1 mx-auto w-full max-w-180 leading-tight font-semibold lg:text-5xl">
@@ -100,7 +100,7 @@ export function PricingSection() {
             onClick={() => setBillingPeriod("monthly")}
             className={`h-10.5 w-30 cursor-pointer rounded-l-lg px-6 py-2 text-base font-medium transition-colors ${
               billingPeriod === "monthly"
-                ? "bg-[#111928] text-white"
+                ? "bg-secondary text-white"
                 : "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100"
             }`}
           >
@@ -111,7 +111,7 @@ export function PricingSection() {
             onClick={() => setBillingPeriod("yearly")}
             className={`h-10.5 w-30 cursor-pointer rounded-r-lg px-6 py-2 text-base font-medium transition-colors ${
               billingPeriod === "yearly"
-                ? "bg-[#111928] text-white"
+                ? "bg-secondary text-white"
                 : "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100"
             }`}
           >

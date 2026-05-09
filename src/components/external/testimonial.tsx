@@ -50,14 +50,14 @@ const testimonials: Testimonial[] = [
 
 export function TestimonialsSection() {
   return (
-    <section className="w-full bg-[#FFFFFF1A] px-4 py-5 lg:py-25">
+    <section className="w-full bg-white/10 px-4 py-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row lg:items-end">
           <div>
-            <h2 className="text-title1 mb-1 leading-tight font-semibold lg:text-5xl">
+            <h2 className="mb-1 text-3xl leading-tight font-semibold md:text-5xl lg:text-5xl">
               Meet the companies
               <br />
-              <span className="text-[#E08A1E]">leveling</span> up with EnergyIQ
+              <span className="text-primary">leveling</span> up with EnergyIQ
             </h2>
           </div>
 
@@ -81,7 +81,7 @@ export function TestimonialsSection() {
                     key={i}
                     icon={StarIcon}
                     size={20}
-                    className="fill-[#E08A1E] text-[#E08A1E]"
+                    className="fill-primary text-primary"
                   />
                 ))}
               </div>
