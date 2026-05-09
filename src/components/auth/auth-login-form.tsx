@@ -3,13 +3,34 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { loginSchema, LoginFormValues } from "@/lib/schemas/auth"
+import { useAuthQueries } from "@/hooks/use-auth-queries"
 
 export function AuthLoginForm() {
-  const [rememberMe, setRememberMe] = useState(true)
+  const { useLogin } = useAuthQueries()
+  const loginMutation = useLogin()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      remember: true,
+    },
+  })
+
+  const onSubmit = (data: LoginFormValues) => {
+    loginMutation.mutate(data)
+  }
 
   return (
-    <form className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="flex flex-col gap-2">
         <div className="space-y-4">
           <AuthInput
@@ -17,12 +38,16 @@ export function AuthLoginForm() {
             id="email"
             placeholder="Enter your email address"
             type="email"
+            {...register("email")}
+            error={errors.email?.message}
           />
           <AuthInput
             label="Password"
             id="password"
             placeholder="************"
             type="password"
+            {...register("password")}
+            error={errors.password?.message}
           />
         </div>
 
@@ -31,8 +56,7 @@ export function AuthLoginForm() {
             <input
               type="checkbox"
               id="remember"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
+              {...register("remember")}
               className="border-amber-30 checked:bg-amber-30 relative h-4 w-4 cursor-pointer appearance-none rounded-sm border transition-colors before:absolute before:inset-0 before:flex before:items-center before:justify-center before:text-[10px] before:font-bold before:text-white before:content-[''] checked:before:content-['✔'] focus:outline-none"
             />
             <label
@@ -63,9 +87,10 @@ export function AuthLoginForm() {
           </Button>
           <Button
             type="submit"
+            disabled={loginMutation.isPending}
             className="border-border-disabled bg-surface-white text-dark-text hover:bg-surface-white/90 h-14 flex-1 rounded-lg border px-8 py-5 text-lg leading-none font-semibold"
           >
-            Sign In
+            {loginMutation.isPending ? "Signing In..." : "Sign In"}
           </Button>
         </div>
 
