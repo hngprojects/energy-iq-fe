@@ -99,7 +99,7 @@ export function Navbar() {
           >
             Sign In
           </Button>
-          <Button className="bg-secondary text-background hover:bg-secondary/90 h-10 rounded-md px-5 font-medium">
+          <Button className="hover:bg-secondary/90 h-10 rounded-md bg-[#111928] px-5 font-medium text-[#F6F6F6]">
             Get Started
           </Button>
         </div>

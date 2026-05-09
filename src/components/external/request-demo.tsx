@@ -53,9 +53,9 @@ export const RequestDemo = () => {
   ]
 
   return (
-    <section className="section-padding text-foreground bg-[#F7F7F799] py-24">
+    <section className="section-padding text-foreground bg-[#F7F7F799] py-16 md:py-24">
       <div className="container-padding mx-auto w-full max-w-7xl">
-        <div className="relative isolate flex min-h-150 flex-col justify-between overflow-hidden rounded-[8px] p-6 md:p-11">
+        <div className="relative isolate flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[8px] p-6 md:min-h-150 md:p-11">
           {/* Background Image */}
           <Image
             src="/images/request_demo_bg.png"
@@ -66,7 +66,7 @@ export const RequestDemo = () => {
           />
 
           {/* Overlay */}
-          <div className="bg-secondary/70 absolute inset-0 z-1" />
+          <div className="absolute inset-0 z-1 bg-[#0D1624]/50" />
 
           {/* Header Row */}
           <div className="relative z-10 flex flex-col justify-between gap-8 md:flex-row md:items-center">

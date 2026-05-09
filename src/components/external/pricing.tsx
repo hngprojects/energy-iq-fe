@@ -100,7 +100,7 @@ export function PricingSection() {
             onClick={() => setBillingPeriod("monthly")}
             className={`h-10.5 w-30 cursor-pointer rounded-l-lg px-6 py-2 text-base font-medium transition-colors ${
               billingPeriod === "monthly"
-                ? "bg-secondary text-white"
+                ? "bg-[#111928] text-white"
                 : "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100"
             }`}
           >
@@ -111,7 +111,7 @@ export function PricingSection() {
             onClick={() => setBillingPeriod("yearly")}
             className={`h-10.5 w-30 cursor-pointer rounded-r-lg px-6 py-2 text-base font-medium transition-colors ${
               billingPeriod === "yearly"
-                ? "bg-secondary text-white"
+                ? "bg-[#111928] text-white"
                 : "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100"
             }`}
           >
@@ -191,7 +191,7 @@ export function PricingSection() {
                       ? "bg-primary text-[#F6F6F6] hover:bg-[#D07A0E]"
                       : tier.ctaVariant === "outline" && tier.highlighted
                         ? "border border-white text-white hover:border-gray-200 hover:bg-white hover:text-gray-900"
-                        : "border-secondary text-secondary border hover:bg-gray-900 hover:text-white"
+                        : "border border-[#080C13] text-[#080C13] hover:bg-gray-900 hover:text-white"
                   }`}
                 >
                   {tier.cta}

@@ -16,7 +16,7 @@ export function Hero() {
 
           <div className="from-foreground/80 via-foreground/40 to-foreground/10 md:from-foreground/85 md:via-foreground/55 absolute inset-0 bg-linear-to-b md:bg-linear-to-r md:to-transparent" />
 
-          <div className="relative flex min-h-130 flex-col justify-center px-4 md:px-12 lg:px-2">
+          <div className="relative flex min-h-[400px] flex-col justify-center px-4 md:min-h-130 md:px-12 lg:px-2">
             <div className="text-background ml-0 max-w-2xl md:ml-2 lg:ml-4">
               <h1 className="font-display text-3xl leading-[1.15] font-bold tracking-tight md:text-7xl lg:text-[3.5rem]">
                 One Dashboard For

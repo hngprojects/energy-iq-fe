@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 
 const logos = [
@@ -13,60 +14,50 @@ const logos = [
 
 export function WorksWith() {
   return (
-    <section className="bg-muted/60 w-full overflow-hidden">
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            @keyframes marquee {
-              0% {
-                transform: translateX(0);
-              }
-              100% {
-                transform: translateX(-100%);
-              }
-            }
-
-            .animate-local-marquee {
-              display: flex;
-              width: max-content;
-              animation: marquee 18s linear infinite;
-            }
-          `,
-        }}
-      />
-
-      <div className="mx-auto max-w-7xl overflow-hidden px-4 py-6 md:px-6 md:py-8">
-        <p className="text-foreground text-center text-sm font-semibold md:text-base">
+    <section className="w-full bg-[#F9FAFBA6] py-8 md:py-12">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <p className="mb-10 text-center text-sm font-semibold tracking-wide text-[#111928] uppercase md:text-base">
           Works with
         </p>
 
-        <div className="mt-6 overflow-hidden md:hidden">
-          <div className="relative w-full overflow-hidden">
-            <div className="animate-local-marquee gap-8">
-              {[...logos, ...logos].map((logo, i) => (
-                <div key={i} className="flex shrink-0 items-center justify-center px-2">
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={32}
-                    height={32}
-                    className="h-6 w-auto"
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="relative overflow-hidden md:hidden">
+          <div className="animate-marquee flex py-4 whitespace-nowrap">
+            {logos.map((logo, i) => (
+              <div key={i} className="mx-6 flex shrink-0 items-center justify-center">
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={150}
+                  height={32}
+                  className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
+                />
+              </div>
+            ))}
+            {logos.map((logo, i) => (
+              <div
+                key={`dup-${i}`}
+                className="mx-6 flex shrink-0 items-center justify-center"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={100}
+                  height={32}
+                  className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
+                />
+              </div>
+            ))}
           </div>
         </div>
-
-        <div className="mt-8 hidden grid-cols-4 gap-8 md:grid lg:grid-cols-8">
+        <div className="hidden grid-cols-4 items-center gap-12 md:grid lg:grid-cols-8">
           {logos.map((logo, i) => (
             <div key={i} className="flex items-center justify-center">
               <Image
                 src={logo.src}
                 alt={logo.alt}
-                width={32}
+                width={100}
                 height={32}
-                className="h-6 w-auto"
+                className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
               />
             </div>
           ))}
