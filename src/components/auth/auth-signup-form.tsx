@@ -31,17 +31,19 @@ export function AuthSignupForm() {
       <div className="space-y-4">
         <Button
           type="submit"
-          className="h-12 w-full bg-[#111827] font-medium text-white hover:bg-[#111827]/90"
+          className="border-border-disabled bg-surface-white text-dark-text hover:bg-surface-white/90 h-14 w-full rounded-lg border px-8 py-5 text-lg leading-none font-semibold"
         >
           Create Account
         </Button>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-[#E5E7EB]" />
+            <span className="border-border w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 font-medium text-[#9CA3AF]">OR</span>
+            <span className="bg-background text-muted-foreground px-2 font-medium">
+              OR
+            </span>
           </div>
         </div>
 
@@ -51,13 +53,13 @@ export function AuthSignupForm() {
       </div>
 
       <div className="space-y-4 text-center">
-        <p className="mx-auto max-w-[320px] text-xs leading-relaxed text-[#6B7280]">
+        <p className="text-grey-light mx-auto max-w-[320px] text-xs leading-relaxed">
           By signing up, you agree to our{" "}
-          <Link href="/terms" className="font-semibold text-[#111827] hover:underline">
+          <Link href="/terms" className="text-dark-text font-semibold hover:underline">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="/privacy" className="font-semibold text-[#111827] hover:underline">
+          <Link href="/privacy" className="text-dark-text font-semibold hover:underline">
             Privacy Policy
           </Link>
         </p>
