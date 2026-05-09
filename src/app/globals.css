@@ -121,6 +121,12 @@
   --color-battery-mid: #c27803;
   --color-danger: #c81e1e;
   --color-danger-bg: #fde8e8;
+  --color-danger-transparent: #c81e1e99;
+  --color-surface-white: #fdfdfd;
+  --color-border-disabled: #e8e8e8;
+  --color-border-active: #d8dbe2;
+  --color-error-text: #f5a62399;
+  --color-dark-text: #111827;
 }
 
 :root {
