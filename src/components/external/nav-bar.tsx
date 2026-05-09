@@ -59,7 +59,7 @@ export function Navbar() {
         >
           <div className="relative h-8 w-8 overflow-hidden rounded-full">
             <Image
-              src="/images/logo.png"
+              src="/images/logo.svg"
               alt="EnergyIQ Logo"
               className="object-contain"
               width={32}
@@ -99,7 +99,7 @@ export function Navbar() {
           >
             Sign In
           </Button>
-          <Button className="bg-secondary text-background hover:bg-secondary/90 h-10 rounded-md px-5 font-medium">
+          <Button className="hover:bg-secondary/90 h-10 rounded-md bg-[#111928] px-5 font-medium text-[#F6F6F6]">
             Get Started
           </Button>
         </div>

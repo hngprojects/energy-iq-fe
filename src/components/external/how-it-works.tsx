@@ -12,11 +12,12 @@ interface StepCardProps {
 const StepCard = ({ title, description, image }: StepCardProps) => {
   return (
     <div className="group bg-dark-alt overflow-hidden rounded-[12px] shadow-xl">
-      <div className="relative aspect-4/3 overflow-hidden">
+      <div className="relative aspect-video w-full overflow-hidden md:aspect-4/3">
         <Image
           src={image}
           alt={title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
       </div>
@@ -49,10 +50,10 @@ export const HowItWorks = () => {
   ]
 
   return (
-    <section className="section-padding text-foreground bg-[#F7F7F799] py-24">
+    <section className="section-padding text-foreground w-full bg-[#F7F7F799] py-16 md:py-24">
       <div className="container-padding mx-auto w-full max-w-7xl">
-        <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-center">
-          <h2 className="text-h1 font-bold">
+        <div className="mb-12 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-center">
+          <h2 className="text-[32px] font-bold md:text-[48px]">
             How it <span className="text-primary">Works</span>
           </h2>
 

@@ -1,82 +1,90 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
+import { motion, AnimatePresence } from "motion/react"
+
+const faqData = [
+  {
+    question: "Do I need to install new hardware?",
+    answer:
+      "No, you don’t need to install any new hardware. EnergyIQ works with your existing inverter and solar setup. You simply connect your system details or integrate with supported inverter platforms to start monitoring your energy in real time.",
+  },
+  {
+    question: "Which inverter brands are supported?",
+    answer:
+      "EnergyIQ supports a wide range of popular inverter brands including Victron, Fronius, Growatt, and more. We are constantly adding support for new platforms.",
+  },
+  {
+    question: "Does the AI agent really speak Pidgin?",
+    answer:
+      "Yes, our AI agent is trained to understand and respond in Pidgin, making it easier for everyone to interact with their energy data naturally.",
+  },
+  {
+    question: "Is my data safe?",
+    answer:
+      "Absolutely. We use industry-standard encryption and security protocols to ensure your energy data and personal information are protected at all times.",
+  },
+  {
+    question: "Can solar installers white‑label EnergyIQ?",
+    answer:
+      "Yes, we offer white-label solutions for solar installers and distributors. Contact our sales team for more information on our partner programs.",
+  },
+]
 
 export const Faq = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
+
+  const toggleFaq = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
+
   return (
     <section className="flex w-full justify-center">
-      <div className="flex h-[1009px] w-[1440px] flex-col items-center bg-[#FEFEFE] px-[10px] py-[100px] md:px-[80px]">
-        <div className="line-height: 1 flex h-[124px] flex-col text-left text-5xl font-bold md:w-[4/5] xl:w-[1281px]">
-          <p className="text-secondary text-4xl md:text-5xl">Frequently Asked </p>
-          <p className="text-accent-foreground text-4xl md:text-5xl">Questions</p>
+      <div className="flex h-auto min-h-[800px] w-full max-w-7xl flex-col items-center bg-[#FEFEFE] px-6 py-16 md:px-20 md:py-24">
+        <div className="mb-12 flex flex-col text-left text-[32px] leading-tight font-bold md:text-5xl lg:w-full">
+          <p className="text-[#111928]">Frequently Asked </p>
+          <p className="text-[#F5A623]">Questions</p>
         </div>
-        <div className="flex h-[637px] w-[90%] flex-col gap-8 lg:w-[839px]">
-          <div className="line-height: 1 font-weight: 600 gap-4 rounded-[10px] border border-[#E9EFFD] p-5 text-xl sm:h-[257] sm:w-[4/5] lg:h-[157px] lg:w-[839px]">
-            <div className="flex items-center justify-between">
-              <h2 className="text-secondary">Do I need to install new hardware?</h2>
-              <Image
-                src="/images/cross.svg"
-                alt="cross"
-                width={32}
-                height={32}
-                className="h-[32px] w-[32px]"
-              />
+        <div className="flex w-full flex-col gap-6 lg:w-[839px]">
+          {faqData.map((faq, index) => (
+            <div
+              key={index}
+              className="flex flex-col justify-center rounded-[10px] border border-[#E9EFFD] px-5 lg:w-[839px]"
+            >
+              <div
+                className="flex cursor-pointer items-center justify-between py-5"
+                onClick={() => toggleFaq(index)}
+              >
+                <h2 className="text-xl font-semibold text-[#111928]">{faq.question}</h2>
+                <motion.div
+                  animate={{ rotate: openIndex === index ? 90 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Image
+                    src={openIndex === index ? "/images/cross.svg" : "/images/plus.svg"}
+                    alt={openIndex === index ? "cross" : "plus"}
+                    width={32}
+                    height={32}
+                    className="h-[32px] w-[32px]"
+                  />
+                </motion.div>
+              </div>
+              <AnimatePresence initial={false}>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="pb-5 text-[#5a6070]">{faq.answer}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <p className="text-[#5a6070]">
-              No, you don’t need to install any new hardware. EnergyIQ works with your
-              existing inverter and solar setup. You simply connect your system details or
-              integrate with supported inverter platforms to start monitoring your energy
-              in real time.
-            </p>
-          </div>
-          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
-            <h2 className="text-secondary">Do I need to install new hardware?</h2>
-            <Image
-              src="/images/plus.svg"
-              alt="plus"
-              width={32}
-              height={32}
-              className="h-[32px] w-[32px]"
-            />
-          </div>
-          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
-            <h2 className="text-secondary">Which inverter brands are supported?</h2>
-            <Image
-              src="/images/plus.svg"
-              alt="plus"
-              width={32}
-              height={32}
-              className="h-[32px] w-[32px]"
-            />
-          </div>
-          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
-            <h2 className="text-secondary">Does the AI agent really speak Pidgin?</h2>
-            <Image
-              src="/images/plus.svg"
-              alt="plus"
-              width={32}
-              height={32}
-              className="h-[32px] w-[32px]"
-            />
-          </div>
-          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
-            <h2 className="text-secondary">Is my data safe?</h2>
-            <Image
-              src="/images/plus.svg"
-              alt="plus"
-              width={32}
-              height={32}
-              className="h-[32px] w-[32px]"
-            />
-          </div>
-          <div className="round-[10px] flex h-[64px] w-[full] items-center justify-between border border-[#E9EFFD] md:p-[20px] lg:w-[839px]">
-            <h2 className="text-secondary">Can solar installers white‑label EnergyIQ?</h2>
-            <Image
-              src="/images/plus.svg"
-              alt="plus"
-              width={32}
-              height={32}
-              className="h-[32px] w-[32px]"
-            />
-          </div>
+          ))}
         </div>
       </div>
     </section>

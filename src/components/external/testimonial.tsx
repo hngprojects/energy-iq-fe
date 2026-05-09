@@ -61,12 +61,12 @@ export function TestimonialsSection() {
             </h2>
           </div>
 
-          <button
+          {/* <button
             type="button"
             className="border-secondary hover:bg-secondary text-secondary shrink-0 cursor-pointer rounded-xl border px-6 py-4 text-sm font-medium transition-colors hover:text-white md:text-base"
           >
             Read More Stories
-          </button>
+          </button> */}
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">

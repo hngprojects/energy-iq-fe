@@ -11,19 +11,25 @@ import { TestimonialsSection } from "@/components/external/testimonial"
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center">
-      <>
-        <Navbar />
-        <Hero />
+    <div className="flex w-full flex-col">
+      <Navbar />
+      <Hero />
+      <div id="features" className="w-full px-[24px]">
         <WorksWith />
         <Services />
+      </div>
+      <div id="how-it-works" className="w-full px-[24px]">
         <HowItWorks />
-        <RequestDemo />
-        <TestimonialsSection />
+      </div>
+      <RequestDemo />
+      <TestimonialsSection />
+      <div id="pricing" className="w-full">
         <PricingSection />
+      </div>
+      <div id="faq" className="w-full">
         <Faq />
-        <Footer />
-      </>
+      </div>
+      <Footer />
     </div>
   )
 }

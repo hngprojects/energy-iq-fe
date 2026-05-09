@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 
 const logos = [
@@ -10,38 +11,53 @@ const logos = [
   { src: "/images/logo7.svg", alt: "Predator" },
   { src: "/images/logo8.svg", alt: "Brand Standard" },
 ]
+
 export function WorksWith() {
   return (
-    <section className="bg-muted/60 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-2 py-2 md:px-4 md:py-6">
-        <p className="text-foreground text-center text-sm font-semibold md:text-base">
+    <section className="w-full bg-[#F9FAFBA6] py-8 md:py-12">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <p className="mb-10 text-center text-sm font-semibold tracking-wide text-[#111928] uppercase md:text-base">
           Works with
         </p>
-        <div className="mt-6 md:hidden">
-          <div className="relative overflow-hidden">
-            <div className="animate-marquee flex w-max gap-[82.3px]">
-              {[...logos, ...logos].map((logo, i) => (
+
+        <div className="relative overflow-hidden md:hidden">
+          <div className="animate-marquee flex py-4 whitespace-nowrap">
+            {logos.map((logo, i) => (
+              <div key={i} className="mx-6 flex shrink-0 items-center justify-center">
                 <Image
-                  key={i}
-                  width={32}
-                  height={32}
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-6 w-auto shrink-0"
+                  width={150}
+                  height={32}
+                  className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
                 />
-              ))}
-            </div>
+              </div>
+            ))}
+            {logos.map((logo, i) => (
+              <div
+                key={`dup-${i}`}
+                className="mx-6 flex shrink-0 items-center justify-center"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={100}
+                  height={32}
+                  className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
+                />
+              </div>
+            ))}
           </div>
         </div>
-        <div className="mt-10 hidden grid-cols-4 items-center gap-8 sm:grid md:grid lg:grid-cols-8">
+        <div className="hidden grid-cols-4 items-center gap-12 md:grid lg:grid-cols-8">
           {logos.map((logo, i) => (
             <div key={i} className="flex items-center justify-center">
               <Image
                 src={logo.src}
                 alt={logo.alt}
-                width={32}
+                width={100}
                 height={32}
-                className="h-6 w-auto"
+                className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
               />
             </div>
           ))}
