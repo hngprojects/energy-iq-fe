@@ -40,9 +40,9 @@ export const Faq = () => {
   }
 
   return (
-    <section className="flex w-full justify-center">
-      <div className="flex h-auto min-h-[800px] w-full max-w-7xl flex-col items-center bg-[#FEFEFE] px-6 py-16 md:px-20 md:py-24">
-        <div className="mb-12 flex flex-col text-left lg:w-full">
+    <section className="flex w-full justify-center bg-[#FEFEFE]">
+      <div className="flex h-auto min-h-[800px] w-full max-w-7xl flex-col items-center px-6 py-16 md:px-20 md:py-24">
+        <div className="mb-12 flex flex-col text-left md:text-center lg:w-full">
           <h2 className="text-[32px] leading-tight font-bold md:text-5xl">
             <span className="text-secondary">Frequently Asked </span>
             <span className="text-primary">Questions</span>
