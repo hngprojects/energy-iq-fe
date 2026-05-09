@@ -42,9 +42,11 @@ export const Faq = () => {
   return (
     <section className="flex w-full justify-center">
       <div className="flex h-auto min-h-[800px] w-full max-w-7xl flex-col items-center bg-[#FEFEFE] px-6 py-16 md:px-20 md:py-24">
-        <div className="mb-12 flex flex-col text-left text-[32px] leading-tight font-bold md:text-5xl lg:w-full">
-          <p className="text-[#111928]">Frequently Asked </p>
-          <p className="text-[#F5A623]">Questions</p>
+        <div className="mb-12 flex flex-col text-left lg:w-full">
+          <h2 className="text-[32px] leading-tight font-bold md:text-5xl">
+            <span className="text-secondary">Frequently Asked </span>
+            <span className="text-primary">Questions</span>
+          </h2>
         </div>
         <div className="flex w-full flex-col gap-6 lg:w-[839px]">
           {faqData.map((faq, index) => (
@@ -56,7 +58,7 @@ export const Faq = () => {
                 className="flex cursor-pointer items-center justify-between py-5"
                 onClick={() => toggleFaq(index)}
               >
-                <h2 className="text-xl font-semibold text-[#111928]">{faq.question}</h2>
+                <h2 className="text-secondary text-xl font-semibold">{faq.question}</h2>
                 <motion.div
                   animate={{ rotate: openIndex === index ? 90 : 0 }}
                   transition={{ duration: 0.3 }}

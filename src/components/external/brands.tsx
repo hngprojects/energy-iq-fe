@@ -14,9 +14,9 @@ const logos = [
 
 export function WorksWith() {
   return (
-    <section className="w-full bg-[#F9FAFBA6] py-8 md:py-12">
+    <section className="w-full bg-[#F9FAFBA6]/65 py-8 md:py-12">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <p className="mb-10 text-center text-sm font-semibold tracking-wide text-[#111928] uppercase md:text-base">
+        <p className="text-secondary mb-10 text-center text-sm font-semibold tracking-wide uppercase md:text-base">
           Works with
         </p>
 
@@ -28,8 +28,8 @@ export function WorksWith() {
                   src={logo.src}
                   alt={logo.alt}
                   width={150}
-                  height={32}
-                  className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
+                  height={40}
+                  className="h-10 w-auto opacity-70 transition-opacity hover:opacity-100"
                 />
               </div>
             ))}

@@ -14,21 +14,21 @@ export default function Home() {
     <div className="flex w-full flex-col">
       <Navbar />
       <Hero />
-      <div id="features" className="w-full px-[24px]">
+      <section id="features" className="w-full px-6">
         <WorksWith />
         <Services />
-      </div>
-      <div id="how-it-works" className="w-full px-[24px]">
+      </section>
+      <section id="how-it-works" className="w-full px-6">
         <HowItWorks />
-      </div>
+      </section>
       <RequestDemo />
       <TestimonialsSection />
-      <div id="pricing" className="w-full">
+      <section id="pricing" className="w-full">
         <PricingSection />
-      </div>
-      <div id="faq" className="w-full">
+      </section>
+      <section id="faq" className="w-full">
         <Faq />
-      </div>
+      </section>
       <Footer />
     </div>
   )
