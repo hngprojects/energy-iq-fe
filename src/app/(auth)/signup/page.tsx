@@ -1,7 +1,17 @@
-export default function Signup() {
+import { AuthWrapper } from "@/components/layout/auth-wrapper"
+import { AuthHeader } from "@/components/auth/auth-header"
+import { AuthSignupForm } from "@/components/auth/auth-signup-form"
+
+export default function SignupPage() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center">
-      <main>ENERGYIQ</main>
-    </div>
+    <AuthWrapper>
+      <div className="mt-28 lg:mt-44">
+        <AuthHeader
+          title="Create An Account"
+          subtitle="Take control of your energy, starting today."
+        />
+        <AuthSignupForm />
+      </div>
+    </AuthWrapper>
   )
 }

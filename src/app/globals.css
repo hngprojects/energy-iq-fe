@@ -33,6 +33,8 @@
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-positive: var(--positive);
+  --color-success-bg: var(--success-bg);
   --color-sidebar: var(--sidebar);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -156,6 +158,7 @@
   --sidebar-accent-foreground: #1a1f2c;
   --sidebar-border: #e5e7eb;
   --sidebar-ring: #f5a623;
+  --positive: #4ade80;
 }
 
 .dark {
@@ -190,6 +193,7 @@
   --sidebar-accent-foreground: #f4f5f6;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #f5a623;
+  --positive: #4ade80;
 }
 
 @layer base {
