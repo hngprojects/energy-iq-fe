@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link"
 
 export function Hero() {
   return (
@@ -16,7 +17,7 @@ export function Hero() {
 
           <div className="from-foreground/80 via-foreground/40 to-foreground/10 md:from-foreground/85 md:via-foreground/55 absolute inset-0 bg-linear-to-b md:bg-linear-to-r md:to-transparent" />
 
-          <div className="relative flex min-h-[400px] flex-col justify-center px-4 md:min-h-130 md:px-12 lg:px-2">
+          <div className="relative flex min-h-[500px] flex-col justify-center px-4 md:min-h-130 md:px-12 lg:px-2">
             <div className="text-background ml-0 max-w-2xl md:ml-2 lg:ml-4">
               <h1 className="font-display text-3xl leading-[1.15] font-bold tracking-tight md:text-7xl lg:text-[3.5rem]">
                 One Dashboard For
@@ -33,14 +34,14 @@ export function Hero() {
                   size="lg"
                   className="bg-background text-foreground hover:bg-background/90 h-11 rounded-md px-7 font-medium md:hidden"
                 >
-                  Get Started
+                  <Link href="/signup">Get Started</Link>
                 </Button>
 
                 <Button
                   size="lg"
                   className="bg-primary text-foreground hover:bg-primary/90 hidden h-12 rounded-md px-7 font-medium md:inline-flex"
                 >
-                  Contact Us
+                  <Link href="/login">Contact Us</Link>
                 </Button>
               </div>
             </div>
