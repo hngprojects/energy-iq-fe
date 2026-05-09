@@ -41,18 +41,18 @@ export const Faq = () => {
 
   return (
     <section className="flex w-full justify-center bg-[#FEFEFE]">
-      <div className="flex h-auto min-h-[800px] w-full max-w-7xl flex-col items-center px-6 py-16 md:px-20 md:py-24">
+      <div className="flex h-auto min-h-200 w-full max-w-7xl flex-col items-center px-6 py-16 md:px-20 md:py-24">
         <div className="mb-12 flex flex-col text-left md:text-center lg:w-full">
           <h2 className="text-[32px] leading-tight font-bold md:text-5xl">
             <span className="text-secondary">Frequently Asked </span>
             <span className="text-primary">Questions</span>
           </h2>
         </div>
-        <div className="flex w-full flex-col gap-6 lg:w-[839px]">
+        <div className="flex w-full flex-col gap-6 lg:w-209.75">
           {faqData.map((faq, index) => (
             <div
               key={index}
-              className="flex flex-col justify-center rounded-[10px] border border-[#E9EFFD] px-5 lg:w-[839px]"
+              className="flex flex-col justify-center rounded-[10px] border border-[#E9EFFD] px-5 lg:w-209.75"
             >
               <div
                 className="flex cursor-pointer items-center justify-between py-5"
@@ -68,7 +68,7 @@ export const Faq = () => {
                     alt={openIndex === index ? "cross" : "plus"}
                     width={32}
                     height={32}
-                    className="h-[32px] w-[32px]"
+                    className="size-8"
                   />
                 </motion.div>
               </div>
@@ -81,7 +81,7 @@ export const Faq = () => {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <p className="pb-5 text-[#5a6070]">{faq.answer}</p>
+                    <p className="text-grey-dark pb-5">{faq.answer}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
