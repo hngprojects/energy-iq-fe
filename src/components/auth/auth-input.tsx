@@ -1,11 +1,23 @@
 "use client"
 import { InputHTMLAttributes, useState } from "react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
 
 interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
+  error?: string
+  isSuccess?: boolean
 }
 
-export function AuthInput({ label, id, type, ...props }: AuthInputProps) {
+export function AuthInput({
+  label,
+  id,
+  type,
+  error,
+  isSuccess,
+  ...props
+}: AuthInputProps) {
   const [showPassword, setShowPassword] = useState(false)
   const isPassword = type === "password"
 
@@ -13,21 +25,25 @@ export function AuthInput({ label, id, type, ...props }: AuthInputProps) {
 
   return (
     <div className="flex flex-col space-y-2">
-      <label htmlFor={id} className="text-sm font-medium text-[#111827]">
+      <Label htmlFor={id} className="text-dark-text text-lg font-medium">
         {label}
-      </label>
+      </Label>
       <div className="relative">
-        <input
+        <Input
           id={id}
           type={isPassword ? (showPassword ? "text" : "password") : type}
-          className="ring-offset-background flex h-12 w-full rounded-lg border border-[#E5E7EB] bg-white px-4 py-2 text-sm transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[#9CA3AF] focus-visible:ring-2 focus-visible:ring-[#FBBF24] focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+          className={cn(
+            "border-border placeholder:text-muted-foreground focus-visible:border-border-active h-13 px-7 py-3.25",
+            isSuccess && "border-positive focus-visible:border-positive",
+            error && "border-error-text focus-visible:border-error-text"
+          )}
           {...props}
         />
         {isPassword && (
           <button
             type="button"
             onClick={togglePassword}
-            className="absolute top-1/2 right-4 -translate-y-1/2 text-[#9CA3AF] hover:text-[#6B7280]"
+            className="text-slate-60 hover:text-grey-light absolute top-1/2 right-4 -translate-y-1/2"
           >
             {showPassword ? (
               <svg
@@ -67,6 +83,11 @@ export function AuthInput({ label, id, type, ...props }: AuthInputProps) {
           </button>
         )}
       </div>
+      {error && (
+        <p className="text-error-text mt-2 text-[12px] leading-none font-semibold">
+          {error}
+        </p>
+      )}
     </div>
   )
 }

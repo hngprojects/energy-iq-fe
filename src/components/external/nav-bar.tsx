@@ -3,10 +3,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "../ui/button"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(" ")
-}
 const IconMenu = ({ className }: { className?: string }) => (
   <svg
     width="28"
@@ -52,7 +50,7 @@ export function Navbar() {
   const [activeLink, setActiveLink] = useState("Features")
   return (
     <header className="bg-background sticky top-0 z-50 w-full">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20 md:px-8">
+      <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 md:h-20 md:px-8">
         <Link
           href="/"
           className="font-display text-foreground flex items-center gap-2 text-lg font-bold"
@@ -97,10 +95,10 @@ export function Navbar() {
             variant="outline"
             className="border-foreground/20 text-foreground hover:bg-background/90 h-10 rounded-md px-6 font-medium"
           >
-            Sign In
+            <Link href="/login">Sign In</Link>
           </Button>
-          <Button className="hover:bg-secondary/90 h-10 rounded-md bg-[#111928] px-5 font-medium text-[#F6F6F6]">
-            Get Started
+          <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-10 rounded-md px-5 font-medium">
+            <Link href="/signup">Get Started</Link>
           </Button>
         </div>
         <Button
@@ -140,11 +138,11 @@ export function Navbar() {
             </li>
           ))}
           <li className="mt-4 flex w-full flex-col gap-2">
-            <Button variant="outline" className="border-secondary/90 w-full rounded-md">
-              Sign In
+            <Button variant="outline" className="border-foreground/20 w-full rounded-md">
+              <Link href="/login">Sign In</Link>
             </Button>
-            <Button className="bg-secondary w-full rounded-md text-white">
-              Get Started
+            <Button className="bg-secondary text-secondary-foreground w-full rounded-md">
+              <Link href="/signup">Get Started</Link>
             </Button>
           </li>
         </ul>
