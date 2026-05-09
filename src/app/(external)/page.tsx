@@ -15,13 +15,21 @@ export default function Home() {
       <>
         <Navbar />
         <Hero />
-        <WorksWith />
-        <Services />
-        <HowItWorks />
+        <div id="features">
+          <WorksWith />
+          <Services />
+        </div>
+        <div id="how-it-works">
+          <HowItWorks />
+        </div>
         <RequestDemo />
         <TestimonialsSection />
-        <PricingSection />
-        <Faq />
+        <div id="pricing">
+          <PricingSection />
+        </div>
+        <div id="faq">
+          <Faq />
+        </div>
         <Footer />
       </>
     </div>
