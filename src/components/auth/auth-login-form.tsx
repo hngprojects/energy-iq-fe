@@ -3,7 +3,7 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginFormValues } from "@/lib/schemas/auth"
 import { useAuthQueries } from "@/hooks/use-auth-queries"
@@ -17,7 +17,7 @@ export function AuthLoginForm() {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -27,8 +27,16 @@ export function AuthLoginForm() {
     },
   })
 
-  const email = watch("email")
-  const password = watch("password")
+  const email = useWatch({
+    control,
+    name: "email",
+    defaultValue: "",
+  })
+  const password = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  })
   const isFormFilled = email.length > 0 && password.length > 0
 
   useEffect(() => {

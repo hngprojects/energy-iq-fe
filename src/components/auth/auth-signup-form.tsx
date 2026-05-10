@@ -3,7 +3,7 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterFormValues } from "@/lib/schemas/auth"
 import { useAuthQueries } from "@/hooks/use-auth-queries"
@@ -17,7 +17,7 @@ export function AuthSignupForm() {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -29,12 +29,20 @@ export function AuthSignupForm() {
     },
   })
 
-  const formValues = watch()
+  const formValues = useWatch({
+    control,
+    defaultValue: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
+  })
   const isFormFilled =
-    formValues.firstName?.length > 0 &&
-    formValues.lastName?.length > 0 &&
-    formValues.email?.length > 0 &&
-    formValues.password?.length > 0
+    !!formValues.firstName &&
+    !!formValues.lastName &&
+    !!formValues.email &&
+    !!formValues.password
 
   useEffect(() => {
     const errorMessages = Object.values(errors)
