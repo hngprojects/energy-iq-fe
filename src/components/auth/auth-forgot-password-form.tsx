@@ -3,7 +3,7 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
@@ -19,14 +19,18 @@ export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: { email: "" },
   })
 
-  const email = watch("email")
+  const email = useWatch({
+    control,
+    name: "email",
+    defaultValue: "",
+  })
   const isFormFilled = email.length > 0
 
   useEffect(() => {
