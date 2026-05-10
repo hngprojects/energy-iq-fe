@@ -3,10 +3,12 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginFormValues } from "@/lib/schemas/auth"
 import { useAuthQueries } from "@/hooks/use-auth-queries"
+import { toast } from "sonner"
+import { useEffect } from "react"
 
 export function AuthLoginForm() {
   const { useLogin } = useAuthQueries()
@@ -15,31 +17,53 @@ export function AuthLoginForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
-      remember: true,
     },
   })
+
+  const email = useWatch({
+    control,
+    name: "email",
+    defaultValue: "",
+  })
+  const password = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  })
+  const isFormFilled = email.length > 0 && password.length > 0
+
+  useEffect(() => {
+    const errorMessages = Object.values(errors)
+    if (errorMessages.length > 0) {
+      errorMessages.forEach((error) => {
+        if (error?.message) {
+          toast.error(error.message)
+        }
+      })
+    }
+  }, [errors])
 
   const onSubmit = (data: LoginFormValues) => {
     loginMutation.mutate(data)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
       <div className="flex flex-col gap-2">
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           <AuthInput
             label="Email Address"
             id="email"
             placeholder="Enter your email address"
             type="email"
             {...register("email")}
-            error={errors.email?.message}
           />
           <AuthInput
             label="Password"
@@ -47,7 +71,6 @@ export function AuthLoginForm() {
             placeholder="************"
             type="password"
             {...register("password")}
-            error={errors.password?.message}
           />
         </div>
 
@@ -56,39 +79,38 @@ export function AuthLoginForm() {
             <input
               type="checkbox"
               id="remember"
-              {...register("remember")}
               className="border-amber-30 checked:bg-amber-30 relative h-4 w-4 cursor-pointer appearance-none rounded-sm border transition-colors before:absolute before:inset-0 before:flex before:items-center before:justify-center before:text-[10px] before:font-bold before:text-white before:content-[''] checked:before:content-['✔'] focus:outline-none"
             />
             <label
               htmlFor="remember"
-              className="text-slate-80 cursor-pointer text-base leading-none font-light"
+              className="text-slate-80 cursor-pointer text-sm font-light md:text-base md:leading-none"
             >
               Remember Password
             </label>
           </div>
           <Link
             href="/forgot-password"
-            className="text-error-text text-base leading-none font-semibold hover:text-amber-50"
+            className="text-error-text text-sm font-semibold hover:text-amber-50 md:text-base md:leading-none"
           >
             Forgot Password
           </Link>
         </div>
       </div>
 
-      <div className="mt-12 flex flex-col gap-16">
-        <div className="flex gap-4">
+      <div className="mt-8 flex flex-col gap-10 md:mt-12 md:gap-16">
+        <div className="flex gap-2 md:gap-4">
           <Button
             type="button"
             variant="outline"
             asChild
-            className="border-border bg-border-disabled text-dark-text hover:bg-slate-10 h-14 flex-1 rounded-lg px-8 py-5 text-lg leading-none font-medium"
+            className="border-border text-dark-text hover:bg-slate-10 md:text-md flex-1 rounded-lg px-4 py-4 text-sm font-medium md:px-8 md:py-6 md:leading-none"
           >
             <Link href="/signup">Sign Up</Link>
           </Button>
           <Button
             type="submit"
-            disabled={loginMutation.isPending}
-            className="border-border-disabled bg-surface-white text-dark-text hover:bg-surface-white/90 h-14 flex-1 rounded-lg border px-8 py-5 text-lg leading-none font-semibold"
+            disabled={loginMutation.isPending || !isFormFilled}
+            className="bg-secondary hover:bg-secondary/90 md:text-md flex-1 rounded-lg px-4 py-4 text-sm font-semibold text-white disabled:opacity-50 md:px-8 md:py-6 md:leading-none"
           >
             {loginMutation.isPending ? "Signing In..." : "Sign In"}
           </Button>
@@ -99,18 +121,18 @@ export function AuthLoginForm() {
             <div className="absolute inset-0 flex items-center">
               <span className="border-border w-full border-t" />
             </div>
-            <div className="relative flex justify-center text-base">
-              <span className="bg-slate-10 px-2 font-normal text-[#2A2F3C]">OR</span>
+            <div className="relative flex justify-center text-sm md:text-base">
+              <span className="bg-white px-2 font-normal text-gray-400">OR</span>
             </div>
           </div>
 
-          <Button variant="google" className="h-12 w-full">
+          <Button variant="google" className="w-full py-4 md:py-6">
             Continue with Google
           </Button>
         </div>
 
         <div className="flex flex-col gap-4 text-center">
-          <p className="text-grey-light text-base font-normal">
+          <p className="text-grey-light text-sm font-normal md:text-base">
             Don’t have an account?{" "}
             <Link
               href="/signup"
@@ -120,7 +142,7 @@ export function AuthLoginForm() {
             </Link>
           </p>
 
-          <p className="text-grey-light text-base leading-none font-normal capitalize">
+          <p className="text-grey-light text-xs font-normal capitalize md:text-base md:leading-none">
             By signing in, you agree to our{" "}
             <Link href="/terms" className="text-grey-light font-bold hover:underline">
               Terms of Service

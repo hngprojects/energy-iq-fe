@@ -11,7 +11,7 @@ interface StepCardProps {
 
 const StepCard = ({ title, description, image }: StepCardProps) => {
   return (
-    <div className="group bg-dark-alt overflow-hidden rounded-[12px] shadow-xl">
+    <div className="group bg-dark-alt bg-secondary overflow-hidden rounded-[12px] shadow-xl">
       <div className="relative aspect-video w-full overflow-hidden md:aspect-4/3">
         <Image
           src={image}
@@ -59,7 +59,7 @@ export const HowItWorks = () => {
 
           <Button
             size="lg"
-            className="bg-primary text-secondary hover:bg-primary/90 w-fit rounded-xl px-8 font-bold"
+            className="bg-primary text-secondary hover:bg-primary/90 px-8 py-6"
           >
             Try for Free
           </Button>

@@ -55,8 +55,7 @@ export const RequestDemo = () => {
   return (
     <section className="section-padding text-foreground bg-[#F7F7F799] py-16 md:py-24">
       <div className="container-padding mx-auto w-full max-w-7xl">
-        <div className="relative isolate flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[8px] p-6 md:min-h-150 md:p-11">
-          {/* Background Image */}
+        <div className="relative isolate flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[8px] p-6 md:min-h-[730px] md:p-11">
           <Image
             src="/images/request_demo_bg.png"
             alt="Request a demo background"
@@ -65,13 +64,10 @@ export const RequestDemo = () => {
             className="z-0 object-cover"
           />
 
-          {/* Overlay */}
           <div className="absolute inset-0 z-1 bg-[#0D1624]/50" />
-
-          {/* Header Row */}
           <div className="relative z-10 flex flex-col justify-between gap-8 md:flex-row md:items-center">
             <div className="space-y-6">
-              <h2 className="md:text-h2 max-w-2xl text-[34px] leading-tight font-bold tracking-tight text-white">
+              <h2 className="max-w-2xl text-[34px] leading-tight font-bold tracking-tight text-white md:text-[48px]">
                 Smart Energy, <br className="hidden md:block" />
                 Smarter Business
               </h2>
@@ -90,8 +86,6 @@ export const RequestDemo = () => {
               Request A Demo
             </Button>
           </div>
-
-          {/* Badges Grid / Scroll Container */}
           <div className="no-scrollbar relative z-10 flex snap-x gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:overflow-x-visible md:pb-0">
             {badges.map((badge, index) => (
               <div key={index} className="w-[92%] shrink-0 snap-center md:w-full">

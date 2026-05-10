@@ -138,10 +138,14 @@ export function PricingSection() {
               )}
 
               <div className="mb-7 flex items-baseline gap-1">
-                <span className="text-3xl font-bold tracking-tight lg:text-5xl">
+                <span className="t text-3xl font-bold tracking-tight lg:text-5xl">
                   {billingPeriod === "monthly" ? tier.monthlyPrice : tier.yearlyPrice}
                 </span>
-                <span className="text-base font-medium text-[#F6F6F6] md:text-2xl">
+                <span
+                  className={`text-base font-medium md:text-2xl ${
+                    tier.highlighted ? "text-[#F6F6F6]" : "text-secondary"
+                  }`}
+                >
                   {billingPeriod === "monthly" ? tier.monthlyPeriod : tier.yearlyPeriod}
                 </span>
               </div>

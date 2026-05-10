@@ -1,17 +1,31 @@
 import Image from "next/image"
+import { Logo } from "../ui/logo"
+
+const footerLinks = [
+  {
+    title: "Product",
+    links: ["Features", "Pricing", "API Integrations", "Contact"],
+  },
+  {
+    title: "Company",
+    links: ["About", "Blog", "Career", "News"],
+  },
+  {
+    title: "Resources",
+    links: ["Use Cases", "Community", "Help Centre"],
+  },
+  {
+    title: "Download",
+    links: ["iOS", "Android", "Windows"],
+  },
+]
 
 export const Footer = () => {
   return (
     <footer className="flex w-full justify-center bg-[#1A1F2C] text-white">
       <div className="container mx-auto flex w-full max-w-7xl flex-col items-center px-6 py-16 md:px-12">
-        {/* Top Section: Logo and Description */}
-        <div className="flex w-full flex-col items-center justify-between border-b border-[#E7E7E7] pb-10 md:flex-row md:items-start">
-          <div className="mb-6 flex items-center gap-2 md:mb-0">
-            <Image src="/images/logo.svg" alt="Logo" width={24} height={24} />
-            <span className="text-xl font-bold">
-              ENERGY<span className="text-primary">IQ</span>
-            </span>
-          </div>
+        <div className="flex w-full flex-col items-center justify-between border-b border-gray-700 pb-10 md:flex-row md:items-start">
+          <Logo textClassName="text-white" />
           <div className="max-w-2xl text-center md:text-left">
             <p className="text-base leading-relaxed text-[#E6E6E6]">
               AI-powered energy management & optimization platform for Nigerian SMEs and
@@ -20,43 +34,19 @@ export const Footer = () => {
             </p>
           </div>
         </div>
-
-        {/* Middle Section: Links and Newsletter */}
         <div className="mt-12 grid w-full grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="space-y-6">
-            <h3 className="text-lg font-bold">Product</h3>
-            <ul className="space-y-3 text-base text-[#E6E6E6]">
-              <li className="hover:text-primary cursor-pointer">Features</li>
-              <li className="hover:text-primary cursor-pointer">Pricing</li>
-              <li className="hover:text-primary cursor-pointer">API Integrations</li>
-              <li className="hover:text-primary cursor-pointer">Contact</li>
-            </ul>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-lg font-bold">Company</h3>
-            <ul className="space-y-3 text-base text-[#E6E6E6]">
-              <li className="hover:text-primary cursor-pointer">About</li>
-              <li className="hover:text-primary cursor-pointer">Blog</li>
-              <li className="hover:text-primary cursor-pointer">Career</li>
-              <li className="hover:text-primary cursor-pointer">News</li>
-            </ul>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-lg font-bold">Resources</h3>
-            <ul className="space-y-3 text-base text-[#E6E6E6]">
-              <li className="hover:text-primary cursor-pointer">Use Cases</li>
-              <li className="hover:text-primary cursor-pointer">Community</li>
-              <li className="hover:text-primary cursor-pointer">Help Centre</li>
-            </ul>
-          </div>
-          <div className="space-y-6">
-            <h3 className="text-lg font-bold">Download</h3>
-            <ul className="space-y-3 text-base text-[#E6E6E6]">
-              <li className="hover:text-primary cursor-pointer">iOS</li>
-              <li className="hover:text-primary cursor-pointer">Android</li>
-              <li className="hover:text-primary cursor-pointer">Windows</li>
-            </ul>
-          </div>
+          {footerLinks.map((section) => (
+            <div key={section.title} className="space-y-6">
+              <h3 className="text-lg font-bold">{section.title}</h3>
+              <ul className="space-y-3 text-base text-[#E6E6E6]">
+                {section.links.map((link) => (
+                  <li key={link} className="hover:text-primary cursor-pointer">
+                    {link}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           <div className="col-span-1 space-y-6 sm:col-span-2 lg:col-span-1">
             <h3 className="text-lg font-bold">Subscribe to our newsletter</h3>
             <p className="text-base text-[#E6E6E6]">Enter your email to get updates.</p>
@@ -72,10 +62,8 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-
-        {/* Bottom Section: Copyright and Socials */}
-        <div className="mt-16 flex w-full flex-col items-center justify-between border-t border-gray-800 pt-8 md:flex-row">
-          <p className="mb-6 text-sm text-[#E6E6E6] md:mb-0">
+        <div className="mt-16 flex w-full flex-col items-center justify-between border-t border-gray-700 pt-8 md:flex-row">
+          <p className="mb-6 text-sm text-[#e6e6e67b] md:mb-0">
             Copyright © {new Date().getFullYear()} BRIX Templates | All Rights Reserved.
           </p>
           <div className="flex gap-5">
