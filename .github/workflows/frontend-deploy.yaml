@@ -6,6 +6,14 @@ on:
       - staging
       - main
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        options:
+          - staging
+          - main
 
 permissions:
   contents: read
@@ -29,24 +37,25 @@ jobs:
 
       - name: Set environment variables
         run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
+          TARGET="${{ github.event.inputs.environment || github.ref_name }}"
+
+          if [[ "$TARGET" == "main" ]]; then
             echo "SERVER_APP_DIR=${{ secrets.PRODUCTION_APP_DIR }}" >> $GITHUB_ENV
             echo "SYSTEMD_SERVICE_NAME=${{ secrets.PRODUCTION_SERVICE_NAME }}" >> $GITHUB_ENV
             echo "SERVER_ENV_FILE_PATH=${{ secrets.PRODUCTION_ENV_FILE_PATH }}" >> $GITHUB_ENV
-            echo "HEALTHCHECK_URL=${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" >> $GITHUB_ENV
+            # echo "HEALTHCHECK_URL=${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" >> $GITHUB_ENV
             echo "ENV_CONTEXT=production" >> $GITHUB_ENV
 
-          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
+          elif [[ "$TARGET" == "staging" ]]; then
             echo "SERVER_APP_DIR=${{ secrets.STAGING_APP_DIR }}" >> $GITHUB_ENV
             echo "SYSTEMD_SERVICE_NAME=${{ secrets.STAGING_SERVICE_NAME }}" >> $GITHUB_ENV
             echo "SERVER_ENV_FILE_PATH=${{ secrets.STAGING_ENV_FILE_PATH }}" >> $GITHUB_ENV
-            echo "HEALTHCHECK_URL=${{ secrets.STAGING_HEALTHCHECK_URL }}" >> $GITHUB_ENV
+            # echo "HEALTHCHECK_URL=${{ secrets.STAGING_HEALTHCHECK_URL }}" >> $GITHUB_ENV
             echo "ENV_CONTEXT=staging" >> $GITHUB_ENV
 
           else
-            echo "Deploy is only allowed from 'staging' or 'main' branches."
-            echo "Current branch: ${{ github.ref_name }}"
-            exit 1    # ← stops the pipeline immediately
+            echo "Invalid target: '$TARGET'. Must be 'staging' or 'main'."
+            exit 1
           fi
 
       - name: Setup pnpm
@@ -81,33 +90,49 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
       - name: Add SSH known_hosts
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -p "${{ secrets.SSH_PORT }}" -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
       - name: Upload archive
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          scp -P "${{ secrets.SSH_PORT }}" /tmp/energy-iq-fe.tar.gz \
-            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/energy-iq-fe.tar.gz"
+          scp -P "$SSH_PORT" /tmp/energy-iq-fe.tar.gz \
+            "$SSH_USER@$SSH_HOST:/tmp/energy-iq-fe.tar.gz"
 
       - name: Write environment file on server
         env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
           APP_ENV_FILE: ${{ env.ENV_CONTEXT == 'production' && secrets.PRODUCTION_APP_ENV_FILE || secrets.STAGING_APP_ENV_FILE }}
         run: |
-          ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
             "mkdir -p \"$(dirname \"${SERVER_ENV_FILE_PATH}\")\""
           printf '%s' "${APP_ENV_FILE}" | \
-            ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
             "umask 077 && cat > \"${SERVER_ENV_FILE_PATH}\""
 
       - name: Run remote deployment
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
             "APP_DIR='${SERVER_APP_DIR}' \
              SERVICE_NAME='${SYSTEMD_SERVICE_NAME}' \
              ENV_FILE_PATH='${SERVER_ENV_FILE_PATH}' \
              bash -s" < ./scripts/deploy-frontend.sh
 
-      # - name: Health check
-      #   run: |
-      #     curl --fail --show-error --silent "${HEALTHCHECK_URL}" > /dev/null
+      - name: Health check
+        env:
+          HEALTHCHECK_URL: ${{ env.HEALTHCHECK_URL }}
+        run: |
+          curl --fail --show-error --silent "$HEALTHCHECK_URL" > /dev/null
