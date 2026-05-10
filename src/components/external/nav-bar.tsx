@@ -2,7 +2,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "../ui/button"
-import Image from "next/image"
+import { Logo } from "../ui/logo"
 import { cn } from "@/lib/utils"
 
 const IconMenu = ({ className }: { className?: string }) => (
@@ -51,24 +51,7 @@ export function Navbar() {
   return (
     <header className="bg-background sticky top-0 z-50 w-full">
       <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 md:h-20 md:px-8">
-        <Link
-          href="/"
-          className="font-display text-foreground flex items-center gap-2 text-lg font-bold"
-        >
-          <div className="relative h-8 w-8 overflow-hidden rounded-full">
-            <Image
-              src="/images/logo.svg"
-              alt="EnergyIQ Logo"
-              className="object-contain"
-              width={32}
-              height={32}
-              priority
-            />
-          </div>
-          <span className="tracking-tight">
-            ENERGY<span className="text-primary">IQ</span>
-          </span>
-        </Link>
+        <Logo size="md" />
         <ul className="hidden items-center gap-8 md:flex">
           {links.map((l) => {
             const isActive = activeLink === l.label
