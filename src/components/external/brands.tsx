@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "motion/react"
 import Image from "next/image"
 
 const logos = [
@@ -20,47 +21,33 @@ export function WorksWith() {
           Works with
         </p>
 
-        <div className="relative overflow-hidden md:hidden">
-          <div className="animate-marquee flex py-4 whitespace-nowrap">
-            {logos.map((logo, i) => (
-              <div key={i} className="mx-6 flex shrink-0 items-center justify-center">
+        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <motion.div
+            className="flex w-max items-center py-4"
+            animate={{
+              x: ["0%", "-50%"],
+            }}
+            transition={{
+              duration: 30,
+              ease: "linear",
+              repeat: Infinity,
+            }}
+          >
+            {[...logos, ...logos].map((logo, i) => (
+              <div
+                key={i}
+                className="mx-6 flex shrink-0 items-center justify-center md:mx-12"
+              >
                 <Image
                   src={logo.src}
                   alt={logo.alt}
                   width={150}
                   height={40}
-                  className="h-10 w-auto opacity-70 transition-opacity hover:opacity-100"
+                  className="h-8 w-auto opacity-70 transition-opacity hover:opacity-100 md:h-14"
                 />
               </div>
             ))}
-            {logos.map((logo, i) => (
-              <div
-                key={`dup-${i}`}
-                className="mx-6 flex shrink-0 items-center justify-center"
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={100}
-                  height={32}
-                  className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="hidden grid-cols-4 items-center gap-12 md:grid lg:grid-cols-8">
-          {logos.map((logo, i) => (
-            <div key={i} className="flex items-center justify-center">
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={100}
-                height={32}
-                className="h-6 w-auto opacity-70 transition-opacity hover:opacity-100"
-              />
-            </div>
-          ))}
+          </motion.div>
         </div>
       </div>
     </section>

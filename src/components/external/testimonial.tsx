@@ -3,6 +3,8 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import { StarIcon } from "@hugeicons/core-free-icons"
 import Image from "next/image"
+import { motion, useAnimate } from "motion/react"
+import { useState, useEffect, useRef } from "react"
 
 interface Testimonial {
   id: string
@@ -48,67 +50,153 @@ const testimonials: Testimonial[] = [
   },
 ]
 
+const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
+  <motion.div
+    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+    className="w-[300px] shrink-0 cursor-pointer rounded-[20px] border border-[#E7E7E7] bg-[#FDFDFD] px-6 py-8 transition-shadow md:w-[400px]"
+  >
+    <div className="mb-6 flex">
+      {Array.from({ length: testimonial.rating }).map((_, i) => (
+        <HugeiconsIcon
+          key={i}
+          icon={StarIcon}
+          size={18}
+          className="fill-primary text-primary"
+        />
+      ))}
+    </div>
+
+    <p className="mb-8 text-sm leading-relaxed text-[#4A4A4A] md:text-base">
+      "{testimonial.text}"
+    </p>
+
+    <div className="flex items-center gap-3">
+      <div className="relative size-10 overflow-hidden rounded-full md:size-12">
+        <Image
+          src={testimonial.author.image}
+          alt={testimonial.author.name}
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div className="text-[#2A2F3C]">
+        <p className="text-sm font-bold md:text-base">{testimonial.author.name}</p>
+        <p className="text-xs text-[#666] md:text-sm">{testimonial.author.title}</p>
+      </div>
+    </div>
+  </motion.div>
+)
+
 export function TestimonialsSection() {
+  const [scope, animate] = useAnimate()
+  const animationRef = useRef<any>(null)
+  const [isPaused, setIsPaused] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  useEffect(() => {
+    if (!isMobile && scope.current) {
+      animationRef.current = animate(
+        scope.current,
+        { x: ["0%", "-33.333%"] },
+        {
+          duration: 30,
+          ease: "linear",
+          repeat: Infinity,
+        }
+      )
+    } else if (animationRef.current) {
+      animationRef.current.stop()
+    }
+  }, [animate, scope, isMobile])
+
+  useEffect(() => {
+    if (!isMobile && animationRef.current) {
+      if (isPaused) {
+        animationRef.current.pause()
+      } else {
+        animationRef.current.play()
+      }
+    }
+  }, [isPaused, isMobile])
+
+  const allTestimonials = isMobile
+    ? testimonials
+    : [...testimonials, ...testimonials, ...testimonials]
+
   return (
-    <section className="w-full bg-white/10 px-4 py-8 lg:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row lg:items-end">
-          <div>
-            <h2 className="mb-1 text-3xl leading-tight font-semibold md:text-5xl lg:text-5xl">
-              Meet the companies
-              <br />
-              <span className="text-primary">leveling</span> up with EnergyIQ
-            </h2>
-          </div>
-
-          {/* <button
-            type="button"
-            className="border-secondary hover:bg-secondary text-secondary shrink-0 cursor-pointer rounded-xl border px-6 py-4 text-sm font-medium transition-colors hover:text-white md:text-base"
-          >
-            Read More Stories
-          </button> */}
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="rounded-[10px] border border-[#E7E7E7] bg-[#FDFDFD] px-5.5 py-8 transition-all hover:shadow-md"
-            >
-              <div className="mb-7.5 flex">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <HugeiconsIcon
-                    key={i}
-                    icon={StarIcon}
-                    size={20}
-                    className="fill-primary text-primary"
-                  />
-                ))}
-              </div>
-
-              <p className="mb-7 text-base leading-relaxed text-gray-700">
-                {testimonial.text}
-              </p>
-
-              <div className="flex items-center gap-3">
-                <Image
-                  src={testimonial.author.image}
-                  alt={testimonial.author.name}
-                  className="size-12 rounded-full object-cover"
-                  width={48}
-                  height={48}
-                />
-                <div className="text-[#2A2F3C]">
-                  <p className="text-base font-semibold md:text-lg">
-                    {testimonial.author.name}
-                  </p>
-                  <p className="text-sm md:text-base">{testimonial.author.title}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+    <section className="w-full overflow-hidden bg-white/10 py-12 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="mb-12">
+          <h2 className="mb-1 text-3xl leading-tight font-bold md:text-5xl">
+            Meet the companies
+            <br />
+            <span className="text-primary">Leveling</span> up with EnergyIQ
+          </h2>
         </div>
       </div>
+
+      {!isMobile ? (
+        <div
+          className="relative mx-auto mt-10 flex max-w-[1440px] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div ref={scope} className="flex gap-6 px-4" style={{ width: "max-content" }}>
+            {allTestimonials.map((testimonial, idx) => (
+              <TestimonialCard
+                key={`${testimonial.id}-${idx}`}
+                testimonial={testimonial}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="relative mt-8 px-4">
+          <motion.div
+            drag="x"
+            dragConstraints={{ left: -(testimonials.length - 1) * 316, right: 0 }}
+            onDragEnd={(_, info) => {
+              const threshold = 50
+              if (info.offset.x < -threshold && activeIndex < testimonials.length - 1) {
+                setActiveIndex((prev) => prev + 1)
+              } else if (info.offset.x > threshold && activeIndex > 0) {
+                setActiveIndex((prev) => prev - 1)
+              }
+            }}
+            animate={{ x: -activeIndex * 316 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="flex gap-4"
+            style={{ width: "max-content" }}
+          >
+            {testimonials.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </motion.div>
+
+          <div className="mt-8 flex justify-center gap-2">
+            {testimonials.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                className={`size-2.5 rounded-full transition-colors ${
+                  activeIndex === idx ? "bg-primary" : "bg-gray-300"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
