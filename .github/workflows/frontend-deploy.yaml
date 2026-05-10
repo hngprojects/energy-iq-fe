@@ -27,21 +27,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Determine environment based on branch
       - name: Set environment variables
         run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             echo "SERVER_APP_DIR=${{ secrets.PRODUCTION_APP_DIR }}" >> $GITHUB_ENV
             echo "SYSTEMD_SERVICE_NAME=${{ secrets.PRODUCTION_SERVICE_NAME }}" >> $GITHUB_ENV
             echo "SERVER_ENV_FILE_PATH=${{ secrets.PRODUCTION_ENV_FILE_PATH }}" >> $GITHUB_ENV
-            echo "APP_ENV_FILE=${{ secrets.PRODUCTION_APP_ENV_FILE }}" >> $GITHUB_ENV
             echo "HEALTHCHECK_URL=${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" >> $GITHUB_ENV
-          else
+            echo "ENV_CONTEXT=production" >> $GITHUB_ENV
+
+          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
             echo "SERVER_APP_DIR=${{ secrets.STAGING_APP_DIR }}" >> $GITHUB_ENV
             echo "SYSTEMD_SERVICE_NAME=${{ secrets.STAGING_SERVICE_NAME }}" >> $GITHUB_ENV
             echo "SERVER_ENV_FILE_PATH=${{ secrets.STAGING_ENV_FILE_PATH }}" >> $GITHUB_ENV
-            echo "APP_ENV_FILE=${{ secrets.STAGING_APP_ENV_FILE }}" >> $GITHUB_ENV
             echo "HEALTHCHECK_URL=${{ secrets.STAGING_HEALTHCHECK_URL }}" >> $GITHUB_ENV
+            echo "ENV_CONTEXT=staging" >> $GITHUB_ENV
+
+          else
+            echo "Deploy is only allowed from 'staging' or 'main' branches."
+            echo "Current branch: ${{ github.ref_name }}"
+            exit 1    # ← stops the pipeline immediately
           fi
 
       - name: Setup pnpm
@@ -86,6 +91,8 @@ jobs:
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/energy-iq-fe.tar.gz"
 
       - name: Write environment file on server
+        env:
+          APP_ENV_FILE: ${{ env.ENV_CONTEXT == 'production' && secrets.PRODUCTION_APP_ENV_FILE || secrets.STAGING_APP_ENV_FILE }}
         run: |
           ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
             "mkdir -p \"$(dirname \"${SERVER_ENV_FILE_PATH}\")\""
@@ -99,7 +106,7 @@ jobs:
             "APP_DIR='${SERVER_APP_DIR}' \
              SERVICE_NAME='${SYSTEMD_SERVICE_NAME}' \
              ENV_FILE_PATH='${SERVER_ENV_FILE_PATH}' \
-             bash -s" < ./scripts/deploy-ubuntu-frontend.sh
+             bash -s" < ./scripts/deploy-frontend.sh
 
       # - name: Health check
       #   run: |
