@@ -7,44 +7,43 @@ import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { cn } from "@/lib/utils"
 
+import { useSearchParams } from "next/navigation"
+import { useAuthQueries } from "@/hooks/use-auth-queries"
+
 export function AuthVerifyEmailForm() {
+  const searchParams = useSearchParams()
+  const email = searchParams.get("email") || ""
   const [otp, setOtp] = useState("")
   const [isSuccess, setIsSuccess] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+
+  const { useVerifyEmail } = useAuthQueries()
+  const verifyMutation = useVerifyEmail()
 
   const isComplete = otp.length === 6
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
 
   const handleVerify = async () => {
     if (!isComplete) return
 
-    setIsLoading(true)
-    setIsError(false)
-
-    try {
-      const response = await fetch("/api/auth/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ otp }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        setIsError(true)
-        setErrorMessage(data.message ?? "Oh no! The code you entered is incorrect.")
-        return
+    verifyMutation.mutate(
+      { email, otp },
+      {
+        onSuccess: () => {
+          setIsSuccess(true)
+          setIsError(false)
+        },
+        onError: (error: unknown) => {
+          setIsError(true)
+          const message =
+            error instanceof Error
+              ? error.message
+              : (error as { message?: string })?.message ||
+                "Oh no! The code you entered is incorrect."
+          setErrorMessage(message)
+        },
       }
-
-      setIsSuccess(true)
-    } catch {
-      setIsError(true)
-      setErrorMessage("Something went wrong. Please try again.")
-    } finally {
-      setIsLoading(false)
-    }
+    )
   }
 
   return (
@@ -153,15 +152,15 @@ export function AuthVerifyEmailForm() {
             <Button
               size="lg"
               onClick={handleVerify}
-              disabled={!isComplete || isLoading}
+              disabled={!isComplete || verifyMutation.isPending}
               className={cn(
                 "h-14 w-full rounded-xl text-lg font-medium transition-all md:order-2",
-                isComplete && !isLoading
+                isComplete && !verifyMutation.isPending
                   ? "bg-[#1A1F2C] text-white shadow-none hover:bg-[#1A1F2C]/90"
                   : "cursor-not-allowed bg-[#1A1F2C] text-white opacity-80"
               )}
             >
-              {isLoading ? (
+              {verifyMutation.isPending ? (
                 "Verifying..."
               ) : (
                 <>

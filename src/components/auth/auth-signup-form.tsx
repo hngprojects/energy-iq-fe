@@ -3,28 +3,69 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { registerSchema, RegisterFormValues } from "@/lib/schemas/auth"
+import { useAuthQueries } from "@/hooks/use-auth-queries"
 
 export function AuthSignupForm() {
+  const { useRegister } = useAuthQueries()
+  const registerMutation = useRegister()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+    },
+  })
+
+  const onSubmit = (data: RegisterFormValues) => {
+    registerMutation.mutate(data)
+  }
+
   return (
-    <form className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
-        <AuthInput
-          label="Enter Full Name"
-          id="fullname"
-          placeholder="Enter your name"
-          type="text"
-        />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <AuthInput
+            label="First Name"
+            id="firstName"
+            placeholder="Enter first name"
+            type="text"
+            {...register("firstName")}
+            error={errors.firstName?.message}
+          />
+          <AuthInput
+            label="Last Name"
+            id="lastName"
+            placeholder="Enter last name"
+            type="text"
+            {...register("lastName")}
+            error={errors.lastName?.message}
+          />
+        </div>
         <AuthInput
           label="Email Address"
           id="email"
           placeholder="Enter your email address"
           type="email"
+          {...register("email")}
+          error={errors.email?.message}
         />
         <AuthInput
           label="Password"
           id="password"
           placeholder="************"
           type="password"
+          {...register("password")}
+          error={errors.password?.message}
         />
       </div>
 
@@ -40,9 +81,10 @@ export function AuthSignupForm() {
           </Button>
           <Button
             type="submit"
+            disabled={registerMutation.isPending}
             className="border-border bg-border-disabled text-dark-text hover:bg-slate-10 h-14 w-full rounded-lg px-8 py-5 text-lg leading-none font-medium sm:flex-1"
           >
-            Create Account
+            {registerMutation.isPending ? "Creating..." : "Create Account"}
           </Button>
         </div>
 
