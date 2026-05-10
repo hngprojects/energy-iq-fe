@@ -4,7 +4,7 @@ import { AuthInput } from "@/components/auth/auth-input"
 import { AuthResetSuccessView } from "@/components/auth/auth-reset-success-view"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
@@ -32,7 +32,7 @@ export function AuthResetPasswordForm({ onSuccess }: { onSuccess?: () => void })
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<ResetPasswordValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -42,8 +42,16 @@ export function AuthResetPasswordForm({ onSuccess }: { onSuccess?: () => void })
     },
   })
 
-  const password = watch("password")
-  const confirmPassword = watch("confirmPassword")
+  const password = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  })
+  const confirmPassword = useWatch({
+    control,
+    name: "confirmPassword",
+    defaultValue: "",
+  })
   const isFormFilled = password.length > 0 && confirmPassword.length > 0
 
   useEffect(() => {

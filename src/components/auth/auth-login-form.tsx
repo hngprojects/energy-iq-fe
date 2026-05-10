@@ -3,10 +3,11 @@
 import { AuthInput } from "@/components/auth/auth-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginFormValues } from "@/lib/schemas/auth"
 import { useAuthQueries } from "@/hooks/use-auth-queries"
+import { AuthService } from "@/services/auth-service"
 import { toast } from "sonner"
 import { useEffect } from "react"
 
@@ -17,7 +18,7 @@ export function AuthLoginForm() {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -27,8 +28,16 @@ export function AuthLoginForm() {
     },
   })
 
-  const email = watch("email")
-  const password = watch("password")
+  const email = useWatch({
+    control,
+    name: "email",
+    defaultValue: "",
+  })
+  const password = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  })
   const isFormFilled = email.length > 0 && password.length > 0
 
   useEffect(() => {
@@ -118,7 +127,12 @@ export function AuthLoginForm() {
             </div>
           </div>
 
-          <Button variant="google" className="w-full py-4 md:py-6">
+          <Button
+            type="button"
+            variant="google"
+            className="w-full py-4 md:py-6"
+            onClick={() => AuthService.googleLogin()}
+          >
             Continue with Google
           </Button>
         </div>
