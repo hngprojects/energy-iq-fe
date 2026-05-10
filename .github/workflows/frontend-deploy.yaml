@@ -1,0 +1,106 @@
+name: Frontend Deploy
+
+on:
+  push:
+    branches:
+      - staging
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10"
+
+concurrency:
+  group: frontend-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Determine environment based on branch
+      - name: Set environment variables
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "SERVER_APP_DIR=${{ secrets.PRODUCTION_APP_DIR }}" >> $GITHUB_ENV
+            echo "SYSTEMD_SERVICE_NAME=${{ secrets.PRODUCTION_SERVICE_NAME }}" >> $GITHUB_ENV
+            echo "SERVER_ENV_FILE_PATH=${{ secrets.PRODUCTION_ENV_FILE_PATH }}" >> $GITHUB_ENV
+            echo "APP_ENV_FILE=${{ secrets.PRODUCTION_APP_ENV_FILE }}" >> $GITHUB_ENV
+            echo "HEALTHCHECK_URL=${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" >> $GITHUB_ENV
+          else
+            echo "SERVER_APP_DIR=${{ secrets.STAGING_APP_DIR }}" >> $GITHUB_ENV
+            echo "SYSTEMD_SERVICE_NAME=${{ secrets.STAGING_SERVICE_NAME }}" >> $GITHUB_ENV
+            echo "SERVER_ENV_FILE_PATH=${{ secrets.STAGING_ENV_FILE_PATH }}" >> $GITHUB_ENV
+            echo "APP_ENV_FILE=${{ secrets.STAGING_APP_ENV_FILE }}" >> $GITHUB_ENV
+            echo "HEALTHCHECK_URL=${{ secrets.STAGING_HEALTHCHECK_URL }}" >> $GITHUB_ENV
+          fi
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify build
+        run: pnpm build
+
+      - name: Create deployment archive
+        run: |
+          tar \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.next' \
+            --exclude='.github' \
+            -czf /tmp/energy-iq-fe.tar.gz .
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Add SSH known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p "${{ secrets.SSH_PORT }}" -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload archive
+        run: |
+          scp -P "${{ secrets.SSH_PORT }}" /tmp/energy-iq-fe.tar.gz \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/energy-iq-fe.tar.gz"
+
+      - name: Write environment file on server
+        run: |
+          ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "mkdir -p \"$(dirname \"${SERVER_ENV_FILE_PATH}\")\""
+          printf '%s' "${APP_ENV_FILE}" | \
+            ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "umask 077 && cat > \"${SERVER_ENV_FILE_PATH}\""
+
+      - name: Run remote deployment
+        run: |
+          ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "APP_DIR='${SERVER_APP_DIR}' \
+             SERVICE_NAME='${SYSTEMD_SERVICE_NAME}' \
+             ENV_FILE_PATH='${SERVER_ENV_FILE_PATH}' \
+             bash -s" < ./scripts/deploy-ubuntu-frontend.sh
+
+      # - name: Health check
+      #   run: |
+      #     curl --fail --show-error --silent "${HEALTHCHECK_URL}" > /dev/null
