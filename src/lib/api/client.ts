@@ -58,14 +58,6 @@ export async function apiFetch<TResponse>(
     let token: string | null = null
     if (typeof window !== "undefined") {
       token = localStorage.getItem("token")
-      if (!token) {
-        // Fallback to cookie
-        const match = document.cookie
-          ?.split(";")
-          .map((c) => c.trim())
-          .find((c) => c.startsWith("token="))
-        token = match ? match.split("=")[1] || null : null
-      }
     }
 
     if (token) {
@@ -108,7 +100,6 @@ export async function apiFetch<TResponse>(
       if (status === 401 && typeof window !== "undefined") {
         // Clear auth tokens on 401
         localStorage.removeItem("token")
-        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
         window.location.replace("/login")
       }
       const message =
