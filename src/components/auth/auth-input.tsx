@@ -19,7 +19,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
 
     return (
       <div className="flex flex-col space-y-2">
-        <Label htmlFor={id} className="text-dark-text text-lg font-medium">
+        <Label htmlFor={id} className="text-dark-text text-md font-medium md:text-lg">
           {label}
         </Label>
         <div className="relative">
@@ -28,7 +28,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             ref={ref}
             type={isPassword ? (showPassword ? "text" : "password") : type}
             className={cn(
-              "border-border placeholder:text-muted-foreground focus-visible:border-border-active h-13 px-7 py-3.25",
+              "border-border placeholder:text-muted-foreground focus-visible:border-border-active md:text-md h-13 px-7 py-3.25 text-sm",
               isSuccess && "border-positive focus-visible:border-positive",
               error && "border-error-text focus-visible:border-error-text"
             )}
@@ -38,7 +38,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             <button
               type="button"
               onClick={togglePassword}
-              className="text-slate-60 hover:text-grey-light absolute top-1/2 right-4 -translate-y-1/2"
+              className="text-slate-60 hover:text-grey-light absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer"
             >
               {showPassword ? (
                 <svg
