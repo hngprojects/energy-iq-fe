@@ -40,7 +40,7 @@ export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }
     }
   }, [errors])
 
-  const onSubmit = (data: ForgotPasswordValues) => {
+  const onSubmit = () => {
     onSuccess?.()
   }
 

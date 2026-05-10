@@ -3,7 +3,7 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import { StarIcon } from "@hugeicons/core-free-icons"
 import Image from "next/image"
-import { motion, useAnimate } from "motion/react"
+import { motion, useAnimate, type AnimationPlaybackControls } from "motion/react"
 import { useState, useEffect, useRef } from "react"
 
 interface Testimonial {
@@ -67,7 +67,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
     </div>
 
     <p className="mb-8 text-sm leading-relaxed text-[#4A4A4A] md:text-base">
-      "{testimonial.text}"
+      &quot;{testimonial.text}&quot;
     </p>
 
     <div className="flex items-center gap-3">
@@ -89,7 +89,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
 
 export function TestimonialsSection() {
   const [scope, animate] = useAnimate()
-  const animationRef = useRef<any>(null)
+  const animationRef = useRef<AnimationPlaybackControls | null>(null)
   const [isPaused, setIsPaused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)

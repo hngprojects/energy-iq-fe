@@ -57,7 +57,7 @@ export function AuthResetPasswordForm({ onSuccess }: { onSuccess?: () => void })
     }
   }, [errors])
 
-  const onSubmit = (data: ResetPasswordValues) => {
+  const onSubmit = () => {
     setIsSuccess(true)
     onSuccess?.()
     window.scrollTo(0, 0)
