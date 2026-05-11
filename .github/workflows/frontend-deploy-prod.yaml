@@ -71,6 +71,7 @@ jobs:
             sudo -u appuser bash -c '
               cd '"$APP_DIR"'
 
+              git pull origin main
               tar -xzf /tmp/fe-prod.tar.gz -C '"$APP_DIR"'
 
               pnpm install --frozen-lockfile --prod

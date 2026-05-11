@@ -80,6 +80,7 @@ jobs:
             sudo -u appuser bash -c '
               cd '"$APP_DIR"'
 
+              git pull origin staging
               tar -xzf /tmp/fe-staging.tar.gz -C '"$APP_DIR"'
 
               pnpm install --frozen-lockfile --prod
