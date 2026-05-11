@@ -80,19 +80,10 @@ jobs:
             sudo -u appuser bash -c '
               cd '"$APP_DIR"'
 
-              # Backup current .env
-              cp .env /tmp/fe-staging-env-backup 2>/dev/null || true
-
-              # Extract new build
               tar -xzf /tmp/fe-staging.tar.gz -C '"$APP_DIR"'
 
-              # Restore .env
-              cp /tmp/fe-staging-env-backup .env 2>/dev/null || true
-
-              # Install production dependencies only
               pnpm install --frozen-lockfile --prod
 
-              # Restart
               pm2 reload fe-dev --update-env || pm2 start pnpm --name fe-dev -- start -H 0.0.0.0 -p 3005
               pm2 save
             '
