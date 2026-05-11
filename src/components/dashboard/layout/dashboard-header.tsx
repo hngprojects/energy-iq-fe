@@ -9,6 +9,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { Input } from "@/components/ui/input"
 import { useUIStore } from "@/stores/ui-store"
+import Image from "next/image"
 
 export function DashboardHeader() {
   const toggleSidebar = useUIStore((state) => state.toggleSidebar)
@@ -29,9 +30,11 @@ export function DashboardHeader() {
           />
         </div>
         <div className="mt-4 mr-6 mb-4 h-8 w-8 shrink-0 overflow-hidden rounded-[16px]">
-          <img
+          <Image
             src="/images/avatar1.png"
             alt="Profile"
+            width={32}
+            height={32}
             className="h-full w-full object-cover"
           />
         </div>
@@ -59,9 +62,11 @@ export function DashboardHeader() {
           />
         </div>
         <div className="h-8 w-8 shrink-0 overflow-hidden rounded-[16px]">
-          <img
+          <Image
             src="/images/avatar1.png"
             alt="Profile"
+            width={32}
+            height={32}
             className="h-full w-full object-cover"
           />
         </div>
