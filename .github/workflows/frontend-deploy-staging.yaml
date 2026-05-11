@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Confirm deployment target'
+        description: "Confirm deployment target"
         required: true
         type: choice
         options:

@@ -129,6 +129,10 @@
   --color-border-active: #d8dbe2;
   --color-error-text: #f5a62399;
   --color-dark-text: #111827;
+
+  /* Design system — Sidebar active state */
+  --color-nav-active-bg: var(--nav-active-bg);
+  --color-nav-active-text: var(--nav-active-text);
 }
 
 :root {
@@ -165,6 +169,8 @@
   --sidebar-border: #e5e7eb;
   --sidebar-ring: #f5a623;
   --positive: #4ade80;
+  --nav-active-bg: #fff3d6;
+  --nav-active-text: #7c520b;
 }
 
 .dark {
@@ -225,4 +231,14 @@
 
 .animate-marquee {
   animation: marquee 25s linear infinite;
+}
+
+@layer components {
+  .progress-container {
+    @apply bg-muted h-1.5 w-full overflow-hidden rounded-full;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500 ease-in-out;
+  }
 }
