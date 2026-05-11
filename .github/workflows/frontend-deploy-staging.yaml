@@ -23,7 +23,51 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Create deployment archive
+        run: |
+          tar \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.github' \
+            -czf /tmp/fe-staging.tar.gz .
+
+      - name: Upload and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "Preparing deployment directory..."
+
+      - name: Copy archive to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: /tmp/fe-staging.tar.gz
+          target: /tmp/
+          strip_components: 2
+
+      - name: Deploy on server
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -31,20 +75,29 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
+            APP_DIR="/home/appuser/frontend/staging/energy-iq-fe"
+
             sudo -u appuser bash -c '
-              cd /home/appuser/frontend/staging/energy-iq-fe
+              cd '"$APP_DIR"'
 
-              git pull origin staging
+              # Backup current .env
+              cp .env /tmp/fe-staging-env-backup 2>/dev/null || true
 
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+              # Extract new build
+              tar -xzf /tmp/fe-staging.tar.gz -C '"$APP_DIR"'
 
-              pnpm install --frozen-lockfile
-              pnpm build
+              # Restore .env
+              cp /tmp/fe-staging-env-backup .env 2>/dev/null || true
 
+              # Install production dependencies only
+              pnpm install --frozen-lockfile --prod
+
+              # Restart
               pm2 reload fe-dev --update-env || pm2 start pnpm --name fe-dev -- start -H 0.0.0.0 -p 3005
               pm2 save
             '
+
+            rm -f /tmp/fe-staging.tar.gz
 
       - name: Health check
         run: |
