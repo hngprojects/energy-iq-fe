@@ -1,4 +1,4 @@
-name: Frontend Deploy - Staging
+name: Deploy to Staging
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-staging:
+  deploy:
     name: Deploy to Staging Server
     runs-on: ubuntu-latest
     timeout-minutes: 25

@@ -1,4 +1,4 @@
-name: Frontend Deploy - Production
+name: Deploy to Production
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-production:
+  deploy:
     name: Deploy to Production Server
     runs-on: ubuntu-latest
     timeout-minutes: 25
