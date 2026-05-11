@@ -24,10 +24,24 @@ export function InverterConnectionStep({
   onBack,
   onConnected,
 }: InverterConnectionStepProps) {
-  const config = INVERTER_CONFIG[inverter]
+  const config = INVERTER_CONFIG[inverter.toLowerCase()]
+
   const [values, setValues] = useState<[string, string, string]>(["", "", ""])
   const [helperOpen, setHelperOpen] = useState(false)
   const [testStatus, setTestStatus] = useState<TestStatus>("idle")
+
+  if (!config) {
+    return (
+      <div className="space-y-6">
+        <div className="rounded-lg bg-red-50 p-4 text-center text-red-600">
+          Configuration for {inverter} is not currently available.
+        </div>
+        <Button onClick={onBack} variant="outline" className="w-full">
+          Go Back
+        </Button>
+      </div>
+    )
+  }
 
   const requiredFilled = config.fields.every(
     (f, i) => f.optional || values[i].trim().length > 0

@@ -20,7 +20,7 @@
     "@t3-oss/env-nextjs": "^0.13.11",
     "@tanstack/react-query": "^5.100.9",
     "axios": "^1.16.0",
-    "class-variance-authority": "^0.7.1",
+    "class-variance-authority": "0.7.1",
     "clsx": "^2.1.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.14.0",
@@ -53,5 +53,13 @@
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "fast-uri": "3.1.2",
+      "postcss": ">=8.5.10",
+      "ip-address": ">=10.1.1",
+      "hono": ">=4.12.18"
+    }
   }
 }

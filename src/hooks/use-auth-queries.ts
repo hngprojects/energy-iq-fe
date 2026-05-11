@@ -13,7 +13,14 @@ export const useAuthQueries = () => {
     useMutation({
       mutationFn: AuthService.login,
       onSuccess: (data) => {
-        setAuth(data.user, data.accessToken, data.refreshToken)
+        const token = data.accessToken
+        const user = data.user
+        const refreshToken = data.refreshToken
+
+        if (typeof window !== "undefined" && token) {
+          localStorage.setItem("token", token)
+        }
+        setAuth(user, token, refreshToken)
         toast.success("Welcome back!")
         router.push("/onboarding")
       },

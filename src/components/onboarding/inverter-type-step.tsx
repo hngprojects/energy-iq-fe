@@ -2,14 +2,9 @@
 
 import { Button } from "@/components/ui/button"
 import { InverterCard } from "./inverter-card"
+import { useInverterQueries } from "@/hooks/use-inverter-queries"
 
-export type InverterType = "victron" | "growatt" | "sunsynk"
-
-const OPTIONS: { id: InverterType; title: string; subtitle: string }[] = [
-  { id: "victron", title: "Victron", subtitle: "Vrm OAuth" },
-  { id: "growatt", title: "Growatt", subtitle: "API key" },
-  { id: "sunsynk", title: "Sunsynk", subtitle: "API key" },
-]
+export type InverterType = string
 
 interface InverterTypeStepProps {
   selected: InverterType | null
@@ -18,16 +13,46 @@ interface InverterTypeStepProps {
 }
 
 export function InverterTypeStep({ selected, onSelect, onNext }: InverterTypeStepProps) {
+  const { useSupportedBrands } = useInverterQueries()
+  const { data: brandsResponse, isLoading, error } = useSupportedBrands()
+
+  const brands = Array.isArray(brandsResponse) ? brandsResponse : []
+
+  const getSubTitle = (brandName: string) => {
+    switch (brandName.toUpperCase()) {
+      case "VICTRON":
+        return "Vrm OAuth"
+      default:
+        return "API key"
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-40 items-center justify-center">
+        <div className="border-secondary h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-lg bg-red-50 p-4 text-center text-red-600">
+        Failed to load supported brands. Please try again.
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-12">
       <div className="grid gap-4 sm:grid-cols-3 sm:gap-8">
-        {OPTIONS.map((opt) => (
+        {brands.map((brandName) => (
           <InverterCard
-            key={opt.id}
-            title={opt.title}
-            subtitle={opt.subtitle}
-            selected={selected === opt.id}
-            onSelect={() => onSelect(opt.id)}
+            key={brandName}
+            title={brandName.charAt(0).toUpperCase() + brandName.slice(1).toLowerCase()}
+            subtitle={getSubTitle(brandName)}
+            selected={selected === brandName}
+            onSelect={() => onSelect(brandName)}
           />
         ))}
       </div>
