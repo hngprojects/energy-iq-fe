@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   description: `${env.NEXT_PUBLIC_APP_NAME} — a Next.js 16 starter.`,
 }
 
+import QueryProvider from "./providers/query-provider"
+import { ThemeProvider } from "./providers/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,6 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -42,7 +47,18 @@ export default function RootLayout({
         figtree.variable
       )}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          forcedTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <QueryProvider>{children}</QueryProvider>
+          <Toaster position="top-right" richColors />
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
