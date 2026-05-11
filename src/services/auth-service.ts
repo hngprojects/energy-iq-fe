@@ -1,4 +1,5 @@
 import { apiFetch } from "@/lib/api/client"
+import { env } from "@/env/client"
 import {
   LoginResponse,
   RegisterResponse,
@@ -14,6 +15,18 @@ import {
 } from "@/lib/schemas/auth"
 
 export const AuthService = {
+  googleLogin: () => {
+    const clientId = env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
+    const callbackUrl = env.NEXT_PUBLIC_GOOGLE_CALLBACK_URL
+    const appUrl = env.NEXT_PUBLIC_APP_URL
+
+    if (!clientId || !callbackUrl) {
+      console.error("Google Auth environment variables are not defined")
+      return
+    }
+    window.location.href = `${appUrl}/api/v1/auth/google`
+  },
+
   login: async (data: LoginFormValues) => {
     return apiFetch<LoginResponse>(
       "/auth/login",
