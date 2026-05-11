@@ -6,10 +6,18 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-deploy-production
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Deploy to Production Server
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -18,13 +26,13 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.STAGING_SERVER_IP }}
+          host: ${{ secrets.PROD_SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
             sudo -u appuser bash -c '
-              cd /home/appuser/frontend/prod/energy-iq-fe
+              cd /home/appuser/frontend/prod
 
               git pull origin main
 
@@ -32,14 +40,13 @@ jobs:
               [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
               pnpm install --frozen-lockfile
-              pnpm migration:run
               pnpm build
 
-              pm2 reload fe-prod --update-env || pm2 start dist/main.js --name fe-prod
+              pm2 reload fe-prod --update-env || pm2 start pnpm --name fe-prod -- start -H 0.0.0.0 -p 3006
               pm2 save
             '
 
       - name: Health check
         run: |
           sleep 15
-          curl --fail --max-time 30 https://energy-iq.hng14.com/ || exit 1
+          curl --fail --max-time 30 https://energy-iq.hng14.com || exit 1
