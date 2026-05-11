@@ -1,114 +1,52 @@
-name: Frontend Deploy - Production
+name: Deploy to Production
 
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Confirm deployment target"
-        required: true
-        type: choice
-        options:
-          - main
 
 permissions:
   contents: read
-
-env:
-  NODE_VERSION: "20"
-  PNPM_VERSION: "10"
 
 concurrency:
   group: frontend-deploy-production
   cancel-in-progress: true
 
 jobs:
-  deploy-production:
+  deploy:
     name: Deploy to Production Server
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    environment:
-      name: main
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
         with:
-          version: ${{ env.PNPM_VERSION }}
+          host: ${{ secrets.PROD_SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            sudo -u appuser bash -c '
+              cd /home/appuser/frontend/prod
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
+              git pull origin main
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+              export NVM_DIR="$HOME/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-      - name: Verify build
-        run: pnpm build
+              pnpm install --frozen-lockfile
+              pnpm build
 
-      - name: Create deployment archive
-        run: |
-          tar \
-            --exclude='.git' \
-            --exclude='node_modules' \
-            --exclude='.next' \
-            --exclude='.github' \
-            -czf /tmp/energy-iq-fe-prod.tar.gz .
-
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-
-      - name: Add SSH known_hosts
-        env:
-          SSH_HOST: ${{ secrets.SERVER_IP }}
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
-
-      - name: Upload archive
-        env:
-          SSH_HOST: ${{ secrets.SERVER_IP }}
-          SSH_USER: ${{ secrets.SERVER_USER }}
-        run: |
-          scp /tmp/energy-iq-fe-prod.tar.gz \
-            "$SSH_USER@$SSH_HOST:/tmp/energy-iq-fe-prod.tar.gz"
-
-      - name: Write environment file on server
-        env:
-          SSH_HOST: ${{ secrets.SERVER_IP }}
-          SSH_USER: ${{ secrets.SERVER_USER }}
-          APP_ENV_FILE: ${{ secrets.APP_ENV_FILE }}
-        run: |
-          printf '%s' "${APP_ENV_FILE}" | \
-            ssh "$SSH_USER@$SSH_HOST" \
-            "umask 077 && cat > /tmp/fe-prod.env"
-
-      - name: Run remote deployment
-        env:
-          SSH_HOST: ${{ secrets.SERVER_IP }}
-          SSH_USER: ${{ secrets.SERVER_USER }}
-        run: |
-          ssh "$SSH_USER@$SSH_HOST" \
-            "APP_DIR='/home/${{ secrets.SERVER_USER }}/frontend/prod' \
-             SERVICE_NAME='fe-prod' \
-             ENV_FILE_PATH='/tmp/fe-prod.env' \
-             bash -s" < ./scripts/deploy-ubuntu-frontend.sh
+              pm2 reload fe-prod --update-env || pm2 start pnpm --name fe-prod -- start -H 0.0.0.0 -p 3006
+              pm2 save
+            '
 
       - name: Health check
-        env:
-          HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
         run: |
-          sleep 10
-          curl --fail --show-error --silent "$HEALTHCHECK_URL" > /dev/null
-
-      - name: Notify success
-        run: echo "Production deployment complete - ${{ secrets.HEALTHCHECK_URL }}"
+          sleep 15
+          curl --fail --max-time 30 https://energy-iq.hng14.com || exit 1
