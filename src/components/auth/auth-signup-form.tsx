@@ -7,6 +7,7 @@ import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterFormValues } from "@/lib/schemas/auth"
 import { useAuthQueries } from "@/hooks/use-auth-queries"
+import { AuthService } from "@/services/auth-service"
 import { toast } from "sonner"
 import { useEffect } from "react"
 
@@ -123,7 +124,12 @@ export function AuthSignupForm() {
             </div>
           </div>
 
-          <Button variant="google" className="h-10 w-full py-4 md:h-12 md:py-6">
+          <Button
+            type="button"
+            variant="google"
+            className="h-10 w-full py-4 md:h-12 md:py-6"
+            onClick={() => AuthService.googleLogin()}
+          >
             Continue with Google
           </Button>
         </div>
