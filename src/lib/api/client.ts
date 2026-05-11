@@ -1,13 +1,15 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { ApiError } from "./error"
-import { env } from "@/env/server"
+import { env as serverEnv } from "@/env/server"
 
 const isAbsoluteUrl = (path: string): boolean => /^https?:\/\//i.test(path)
 const isInternalApiPath = (path: string): boolean => path.startsWith("/api/")
 const isServer = typeof window === "undefined"
 
 function getBaseUrl(): string | undefined {
-  return env.API_BASE_URL
+  return isServer
+    ? serverEnv.API_BASE_URL
+    : process.env.NEXT_PUBLIC_API_BASE_URL || "/api/proxy"
 }
 
 const normalizeBackendPath = (path: string): string => {

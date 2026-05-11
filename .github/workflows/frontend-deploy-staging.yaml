@@ -6,10 +6,18 @@ on:
       - staging
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-deploy-staging
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Deploy to Staging Server
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -32,14 +40,13 @@ jobs:
               [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
               pnpm install --frozen-lockfile
-              pnpm migration:run
               pnpm build
 
-              pm2 reload fe-dev --update-env || pm2 start dist/main.js --name fe-dev
+              pm2 reload fe-dev --update-env || pm2 start pnpm --name fe-dev -- start -H 0.0.0.0 -p 3005
               pm2 save
             '
 
       - name: Health check
         run: |
           sleep 15
-          curl --fail --max-time 30 https://staging.energy-iq.hng14.com/ || exit 1
+          curl --fail --max-time 30 https://staging.energy-iq.hng14.com || exit 1

@@ -83,11 +83,27 @@ export const useAuthQueries = () => {
       enabled: typeof window !== "undefined" && !!localStorage.getItem("token"),
     })
 
+  const useForgotPassword = () =>
+    useMutation({
+      mutationFn: AuthService.forgotPassword,
+      onSuccess: (data) => {
+        toast.success(data.message || "Reset link sent to your email!")
+      },
+      onError: (error: unknown) => {
+        const message =
+          error instanceof Error
+            ? error.message
+            : (error as { message?: string })?.message || "Failed to send reset link"
+        toast.error(message)
+      },
+    })
+
   return {
     useLogin,
     useRegister,
     useVerifyEmail,
     useLogout,
     useMe,
+    useForgotPassword,
   }
 }

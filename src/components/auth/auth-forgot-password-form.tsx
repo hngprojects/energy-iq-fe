@@ -1,13 +1,15 @@
 "use client"
 
-import { AuthInput } from "@/components/auth/auth-input"
-import { Button } from "@/components/ui/button"
+import { useEffect } from "react"
 import Link from "next/link"
 import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
-import { useEffect } from "react"
+
+import { AuthInput } from "@/components/auth/auth-input"
+import { Button } from "@/components/ui/button"
+import { useAuthQueries } from "@/hooks/use-auth-queries"
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -16,6 +18,10 @@ const forgotPasswordSchema = z.object({
 type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>
 
 export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }) {
+  // Initialize forgot password mutation
+  const { useForgotPassword } = useAuthQueries()
+  const { mutate: forgotPassword, isPending } = useForgotPassword()
+
   const {
     register,
     handleSubmit,
@@ -23,18 +29,24 @@ export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }
     formState: { errors },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: { email: "" },
+    defaultValues: {
+      email: "",
+    },
   })
 
+  // Watch email field to determine if form is filled
   const email = useWatch({
     control,
     name: "email",
     defaultValue: "",
   })
-  const isFormFilled = email.length > 0
 
+  const isFormFilled = email.trim().length > 0
+
+  // Show validation errors as toast notifications
   useEffect(() => {
     const errorMessages = Object.values(errors)
+
     if (errorMessages.length > 0) {
       errorMessages.forEach((error) => {
         if (error?.message) {
@@ -44,8 +56,22 @@ export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }
     }
   }, [errors])
 
-  const onSubmit = () => {
-    onSuccess?.()
+  // Submit form and call forgot password API
+  const onSubmit = (data: ForgotPasswordValues) => {
+    forgotPassword(data, {
+      onSuccess: () => {
+        toast.success("Reset link sent successfully.")
+        onSuccess?.()
+      },
+      onError: (error) => {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Failed to send reset link. Please try again."
+
+        toast.error(message)
+      },
+    })
   }
 
   return (
@@ -57,6 +83,7 @@ export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }
             id="email"
             placeholder="Enter your email address"
             type="email"
+            disabled={isPending}
             {...register("email")}
           />
         </div>
@@ -66,15 +93,17 @@ export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }
         <div className="flex flex-col gap-3 md:flex-row-reverse md:gap-4">
           <Button
             type="submit"
-            disabled={!isFormFilled}
+            disabled={!isFormFilled || isPending}
             className="bg-secondary hover:bg-secondary/90 h-12 flex-1 rounded-lg px-8 py-4 text-sm font-semibold text-white disabled:opacity-50 md:py-6 md:text-lg"
           >
-            Send Reset Link
+            {isPending ? "Sending..." : "Send Reset Link"}
           </Button>
+
           <Button
             type="button"
             variant="outline"
             asChild
+            disabled={isPending}
             className="border-border text-dark-text md:text-md h-12 flex-1 rounded-lg px-4 py-4 text-sm font-semibold hover:bg-slate-50 md:px-8 md:py-6"
           >
             <Link href="/login">Back to Login</Link>
