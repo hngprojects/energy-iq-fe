@@ -2,11 +2,15 @@ import { Sun, Zap, RefreshCw } from "lucide-react"
 import { AlertBanner } from "@/components/dashboard/cards/alert-banner"
 import { MetricCard } from "@/components/dashboard/cards/metric-card"
 import { BatteryCard } from "@/components/dashboard/cards/battery-card"
-import { SavedTodayCard, SavedMonthCard } from "@/components/dashboard/cards/savings-card"
-import { PowerUsageCard } from "@/components/dashboard/cards/power-usage-card"
+// import { SavedTodayCard, SavedMonthCard } from "@/components/dashboard/cards/savings-card"
+import {
+  ApplianceType,
+  PowerUsageCard,
+} from "@/components/dashboard/cards/power-usage-card"
 import { EnergyUsageChart } from "@/components/dashboard/charts/energy-usage-chart"
-import { AIAssistantBanner } from "@/components/dashboard/ai/ai-assistant-banner"
+import { AiBanner } from "@/components/dashboard/ai/ai-assistant-banner"
 import { dashboardMock as d } from "@/lib/mocks/dashboard-data"
+import { SavingsCard } from "@/components/dashboard/cards/savings-card"
 
 export default function DashboardPage() {
   return (
@@ -52,14 +56,26 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <SavedTodayCard {...d.savedToday} />
-        <SavedMonthCard {...d.savedMonth} />
-        <PowerUsageCard zones={d.zones} />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <SavingsCard savedTodayCard={d.savedToday} savedMonthCard={d.savedMonth} />
+        </div>
+
+        <div className="lg:col-span-1">
+          {/* <PowerConsumptionCard items={powerConsumption} /> */}
+          <PowerUsageCard
+            zones={d.zones as { name: string; pct: number; kind: ApplianceType }[]}
+          />
+        </div>
       </div>
 
+      {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <SavedTodayCard {...d.savedToday} />
+        <SavedMonthCard {...d.savedMonth} />
+      </div> */}
+
       <EnergyUsageChart data={d.weekly} />
-      <AIAssistantBanner />
+      <AiBanner />
     </div>
   )
 }
