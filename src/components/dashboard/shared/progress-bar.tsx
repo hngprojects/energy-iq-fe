@@ -9,7 +9,6 @@ export function ProgressBar({
 }: ProgressBarProps) {
   return (
     <div className="progress-container">
-      {/* eslint-disable-next-line react/forbid-dom-props */}
       <div
         className={`progress-fill ${colorClass}`}
         style={{

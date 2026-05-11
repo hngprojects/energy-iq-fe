@@ -129,6 +129,10 @@
   --color-border-active: #d8dbe2;
   --color-error-text: #f5a62399;
   --color-dark-text: #111827;
+
+  /* Design system — Sidebar active state */
+  --color-nav-active-bg: var(--nav-active-bg);
+  --color-nav-active-text: var(--nav-active-text);
 }
 
 :root {
@@ -165,6 +169,8 @@
   --sidebar-border: #e5e7eb;
   --sidebar-ring: #f5a623;
   --positive: #4ade80;
+  --nav-active-bg: #fff3d6;
+  --nav-active-text: #7c520b;
 }
 
 .dark {

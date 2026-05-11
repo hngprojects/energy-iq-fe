@@ -1,5 +1,4 @@
 import { Sun, Zap, RefreshCw } from "lucide-react"
-// import { DashboardLayout } from "@/components/dashboard/layout/dashboard-layout"
 import { AlertBanner } from "@/components/dashboard/cards/alert-banner"
 import { MetricCard } from "@/components/dashboard/cards/metric-card"
 import { BatteryCard } from "@/components/dashboard/cards/battery-card"
@@ -11,7 +10,6 @@ import { dashboardMock as d } from "@/lib/mocks/dashboard-data"
 
 export default function DashboardPage() {
   return (
-    // <DashboardLayout>
     <div className="mx-auto max-w-7xl space-y-6 p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
@@ -63,6 +61,5 @@ export default function DashboardPage() {
       <EnergyUsageChart data={d.weekly} />
       <AIAssistantBanner />
     </div>
-    // </DashboardLayout>
   )
 }
