@@ -32,17 +32,17 @@ export function Hero() {
               <div className="mt-7 md:mt-8">
                 <Button
                   size="lg"
-                  className="bg-background text-foreground hover:bg-background/90 h-11 rounded-md px-7 font-medium md:hidden"
+                  className="bg-primary text-foreground hover:bg-primary/80 h-11 rounded-md px-7 font-medium"
                 >
                   <Link href="/signup">Get Started</Link>
                 </Button>
 
-                <Button
+                {/* <Button
                   size="lg"
                   className="bg-primary text-foreground hover:bg-primary/90 hidden h-12 rounded-md px-7 font-medium md:inline-flex"
                 >
                   <Link href="/login">Contact Us</Link>
-                </Button>
+                </Button> */}
               </div>
             </div>
 
