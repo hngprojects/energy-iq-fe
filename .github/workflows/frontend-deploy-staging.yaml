@@ -31,7 +31,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
-            sudo -u appuser bash -c '
               cd /home/appuser/frontend/staging/energy-iq-fe
 
               git pull origin staging
@@ -44,7 +43,7 @@ jobs:
 
               pm2 reload fe-dev --update-env || pm2 start pnpm --name fe-dev -- start -H 0.0.0.0 -p 3005
               pm2 save
-            '
+            
 
       - name: Health check
         run: |
