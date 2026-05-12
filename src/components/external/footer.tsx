@@ -34,7 +34,7 @@ const footerLinks = [
 export const Footer = () => {
   return (
     <footer className="flex w-full justify-center bg-[#1A1F2C] text-white">
-      <div className="container mx-auto flex w-full max-w-7xl flex-col px-6 py-16 md:px-12">
+      <div className="container mx-auto flex w-full max-w-[1400px] flex-col px-6 py-16 md:px-12">
         <div className="flex w-full flex-col justify-between gap-12 lg:flex-row lg:gap-24">
           {/* Left Section */}
           <div className="flex flex-col space-y-8 lg:max-w-md">
