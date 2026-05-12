@@ -1,7 +1,6 @@
 import { WorksWith } from "@/components/external/brands"
 import { Faq } from "@/components/external/faq"
 import { Hero } from "@/components/external/hero"
-import { HowItWorks } from "@/components/external/how-it-works"
 import { PricingSection } from "@/components/external/pricing"
 import { RequestDemo } from "@/components/external/request-demo"
 import { Services } from "@/components/external/services"
