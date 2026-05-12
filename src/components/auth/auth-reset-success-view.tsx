@@ -11,14 +11,14 @@ export function AuthResetSuccessView() {
           You’re All Set
         </h1>
         <p className="text-grey-dark text-base">
-          Your password has been updated successfully. Sign in.
+          Your password has been updated successfully.
         </p>
       </div>
 
       <div className="flex w-full justify-end">
         <Button
           asChild
-          className="bg-dark-alt hover:bg-dark-alt/90 h-[54px] w-full max-w-[247px] rounded-[var(--radius)] px-16 py-2 text-lg leading-none font-semibold text-white sm:w-auto"
+          className="bg-secondary hover:bg-secondary/90 h-12 flex-1 rounded-lg px-8 py-3 text-lg font-semibold text-white disabled:opacity-50 lg:h-14 lg:py-5"
         >
           <Link href="/login">Sign In</Link>
         </Button>
