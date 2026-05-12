@@ -34,14 +34,14 @@ export function Hero() {
                   size="lg"
                   className="bg-background text-foreground hover:bg-background/90 h-11 rounded-md px-7 font-medium md:hidden"
                 >
-                  <Link href="/signup">Get Started</Link>
+                  <Link href="/signup">Get </Link>
                 </Button>
 
                 <Button
                   size="lg"
                   className="bg-primary text-foreground hover:bg-primary/90 hidden h-12 rounded-md px-7 font-medium md:inline-flex"
                 >
-                  <Link href="/login">Contact Us</Link>
+                  <Link href="/contact">Contact Us</Link>
                 </Button>
               </div>
             </div>

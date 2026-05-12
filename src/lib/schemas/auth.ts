@@ -32,3 +32,20 @@ export const refreshTokenSchema = z.object({
 })
 
 export type RefreshTokenFormValues = z.infer<typeof refreshTokenSchema>
+
+export const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8)
+      .regex(/[A-Z]/)
+      .regex(/[!@#$%^&*(),.?":{}|<>]/),
+
+    confirmPassword: z.string(),
+  })
+  .refine((d) => d.password === d.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  })
+
+export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>

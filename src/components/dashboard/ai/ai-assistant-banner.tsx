@@ -17,7 +17,7 @@ export function AIAssistantBanner() {
           </p>
         </div>
         <button className="bg-background text-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-1 self-start rounded-lg px-4 py-2 text-sm font-medium transition-colors">
-          Ask Energy AI <ArrowUpRight className="h-4 w-4" />
+          Ask Energy AI Link <ArrowUpRight className="h-4 w-4" />
         </button>
       </div>
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
