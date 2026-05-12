@@ -90,4 +90,26 @@ export const AuthService = {
       true
     )
   },
+
+  forgotPassword: async (data: { email: string }) => {
+    return apiFetch<{ message: string }>(
+      "auth/forgot-password",
+      {
+        method: "POST",
+        data,
+      },
+      true
+    )
+  },
+
+  resetPassword: async (data: { token: string; password: string }) => {
+    return apiFetch<{ message: string }>(
+      "auth/reset-password",
+      {
+        method: "POST",
+        data,
+      },
+      true
+    )
+  },
 }
