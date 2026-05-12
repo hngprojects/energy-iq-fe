@@ -78,8 +78,6 @@ const TermsAndCondition = () => {
         className="bg-primary fixed top-0 right-0 left-0 z-50 h-1.5 origin-left"
         style={{ scaleX }}
       />
-
-      {/* Header Section */}
       <header className="bg-secondary relative h-[300px] w-full overflow-hidden md:h-[400px]">
         <motion.div
           initial={{ scale: 1.1, opacity: 0 }}
@@ -111,11 +109,9 @@ const TermsAndCondition = () => {
         </div>
       </header>
 
-      {/* Main Content Area */}
       <div className="bg-white">
         <main className="container mx-auto max-w-[1400px] px-4 py-16 md:px-6 lg:px-8">
           <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
-            {/* Table of Contents - Sidebar */}
             <aside className="lg:sticky lg:top-24 lg:w-1/4">
               <div className="border-none bg-white shadow-none lg:bg-transparent lg:p-0">
                 <h2 className="mb-6 text-lg font-bold tracking-wider text-slate-900 uppercase lg:text-xl">
