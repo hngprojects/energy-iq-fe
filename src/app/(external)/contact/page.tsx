@@ -1,12 +1,16 @@
 import Image from "next/image"
+import { Navbar } from "@/components/external/nav-bar"
+import { Footer } from "@/components/external/footer"
 
 export default function Contact() {
   return (
     <section className="flex min-h-screen flex-col bg-white">
+      <Navbar />
+
       {/* Hero Section with Background Image */}
-      <div className="relative flex h-[350px] w-full items-center justify-center overflow-hidden md:h-[450px]">
+      <div className="relative flex h-87.5 w-full items-center justify-center overflow-hidden md:h-112.5">
         <Image
-          src="/demo.png"
+          src="/images/pages.jpg"
           alt="Contact hero background"
           fill
           className="object-cover object-center"
@@ -118,6 +122,7 @@ export default function Contact() {
           </div>
         </form>
       </div>
+      <Footer />
     </section>
   )
 }
