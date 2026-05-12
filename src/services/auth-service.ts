@@ -101,4 +101,15 @@ export const AuthService = {
       true
     )
   },
+
+  resetPassword: async (data: { token: string; password: string }) => {
+    return apiFetch<{ message: string }>(
+      "auth/reset-password",
+      {
+        method: "POST",
+        data,
+      },
+      true
+    )
+  },
 }

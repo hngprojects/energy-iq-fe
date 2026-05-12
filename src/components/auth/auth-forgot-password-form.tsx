@@ -1,14 +1,17 @@
 "use client"
 
-import { useEffect } from "react"
 import Link from "next/link"
+
 import { useForm, useWatch } from "react-hook-form"
+
 import { zodResolver } from "@hookform/resolvers/zod"
+
 import { z } from "zod"
-import { toast } from "sonner"
 
 import { AuthInput } from "@/components/auth/auth-input"
+
 import { Button } from "@/components/ui/button"
+
 import { useAuthQueries } from "@/hooks/use-auth-queries"
 
 const forgotPasswordSchema = z.object({
@@ -18,58 +21,36 @@ const forgotPasswordSchema = z.object({
 type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>
 
 export function AuthForgotPasswordForm({ onSuccess }: { onSuccess?: () => void }) {
-  // Initialize forgot password mutation
   const { useForgotPassword } = useAuthQueries()
+
   const { mutate: forgotPassword, isPending } = useForgotPassword()
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<ForgotPasswordValues>({
+  const { register, handleSubmit, control } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
+
     defaultValues: {
       email: "",
     },
   })
 
-  // Watch email field to determine if form is filled
   const email = useWatch({
     control,
+
     name: "email",
+
     defaultValue: "",
   })
 
   const isFormFilled = email.trim().length > 0
 
-  // Show validation errors as toast notifications
-  useEffect(() => {
-    const errorMessages = Object.values(errors)
-
-    if (errorMessages.length > 0) {
-      errorMessages.forEach((error) => {
-        if (error?.message) {
-          toast.error(error.message)
-        }
-      })
-    }
-  }, [errors])
-
-  // Submit form and call forgot password API
   const onSubmit = (data: ForgotPasswordValues) => {
     forgotPassword(data, {
       onSuccess: () => {
-        toast.success("Reset link sent successfully.")
-        onSuccess?.()
-      },
-      onError: (error) => {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "Failed to send reset link. Please try again."
+        localStorage.setItem("reset_email", data.email)
 
-        toast.error(message)
+        console.log("Email saved for resend:", data.email)
+
+        onSuccess?.()
       },
     })
   }

@@ -1,8 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { AuthService } from "@/services/auth-service"
-import { useAuthStore } from "@/stores/auth-store"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+
+import { AuthService } from "@/services/auth-service"
+import { useAuthStore } from "@/stores/auth-store"
+
+type ErrorWithMessage = {
+  message?: string
+}
+
+const getErrorMessage = (error: unknown, fallback: string): string => {
+  if (error instanceof Error) {
+    return error.message
+  }
+
+  if (typeof error === "object" && error !== null && "message" in error) {
+    return (error as ErrorWithMessage).message ?? fallback
+  }
+
+  return fallback
+}
 
 export const useAuthQueries = () => {
   const queryClient = useQueryClient()
@@ -18,11 +35,7 @@ export const useAuthQueries = () => {
         router.push("/onboarding")
       },
       onError: (error: unknown) => {
-        const message =
-          error instanceof Error
-            ? error.message
-            : (error as { message?: string })?.message || "Invalid email or password"
-        toast.error(message)
+        toast.error(getErrorMessage(error, "Invalid email or password"))
       },
     })
 
@@ -34,11 +47,7 @@ export const useAuthQueries = () => {
         router.push(`/verify-email?email=${encodeURIComponent(variables.email)}`)
       },
       onError: (error: unknown) => {
-        const message =
-          error instanceof Error
-            ? error.message
-            : (error as { message?: string })?.message || "Registration failed"
-        toast.error(message)
+        toast.error(getErrorMessage(error, "Registration failed"))
       },
     })
 
@@ -50,11 +59,7 @@ export const useAuthQueries = () => {
         router.push("/login")
       },
       onError: (error: unknown) => {
-        const message =
-          error instanceof Error
-            ? error.message
-            : (error as { message?: string })?.message || "Verification failed"
-        toast.error(message)
+        toast.error(getErrorMessage(error, "Verification failed"))
       },
     })
 
@@ -68,11 +73,7 @@ export const useAuthQueries = () => {
         router.push("/login")
       },
       onError: (error: unknown) => {
-        const message =
-          error instanceof Error
-            ? error.message
-            : (error as { message?: string })?.message || "Logout failed"
-        toast.error(message)
+        toast.error(getErrorMessage(error, "Logout failed"))
       },
     })
 
@@ -90,11 +91,18 @@ export const useAuthQueries = () => {
         toast.success(data.message || "Reset link sent to your email!")
       },
       onError: (error: unknown) => {
-        const message =
-          error instanceof Error
-            ? error.message
-            : (error as { message?: string })?.message || "Failed to send reset link"
-        toast.error(message)
+        toast.error(getErrorMessage(error, "Failed to send reset link"))
+      },
+    })
+
+  const useResetPassword = () =>
+    useMutation({
+      mutationFn: AuthService.resetPassword,
+      onSuccess: () => {
+        toast.success("Password reset successfully!")
+      },
+      onError: (error: unknown) => {
+        toast.error(getErrorMessage(error, "Reset failed"))
       },
     })
 
@@ -105,5 +113,6 @@ export const useAuthQueries = () => {
     useLogout,
     useMe,
     useForgotPassword,
+    useResetPassword,
   }
 }
