@@ -1,29 +1,133 @@
-import React from "react"
-
-import { Button } from "../ui/button"
 import Image from "next/image"
 
-interface StepCardProps {
+const StepCard = ({
+  step,
+  title,
+  description,
+  image,
+  isReversed,
+  height,
+  imageLayout,
+  isSpecialCard,
+}: {
+  step: string
   title: string
   description: string
   image: string
-}
-
-const StepCard = ({ title, description, image }: StepCardProps) => {
+  isReversed?: boolean
+  height?: string
+  imageLayout?: {
+    width: string
+    height: string
+    borderRadius: string
+    marginTop: string
+    marginBottom: string
+    padding?: string
+  }
+  isSpecialCard?: boolean
+}) => {
   return (
-    <div className="group bg-dark-alt bg-secondary overflow-hidden rounded-[12px] shadow-xl">
-      <div className="relative aspect-video w-full overflow-hidden md:aspect-4/3">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+    <div
+      className="relative flex w-full max-w-[1280px] flex-col items-center justify-between gap-12 lg:flex-row lg:items-center lg:gap-24"
+      style={{ minHeight: height }}
+    >
+      {/* Content Side */}
+      <div
+        className={`flex flex-1 flex-col justify-center text-center lg:text-left ${
+          isReversed ? "lg:order-3" : "lg:order-1"
+        }`}
+      >
+        <div
+          className={`rounded-[12px] p-6 shadow-sm lg:p-8 ${
+            isSpecialCard ? "border-[1px] border-[#E9EFFD] bg-white" : "bg-white"
+          }`}
+        >
+          <h3 className="mb-4 font-sans text-[22px] leading-[120%] font-semibold tracking-[0%] text-slate-100 lg:text-[28px] lg:leading-[100%]">
+            {title}
+          </h3>
+          <p className="text-grey-dark font-sans text-[16px] leading-[24px] font-medium tracking-[0%] lg:text-[18px] lg:leading-[27px]">
+            {description}
+          </p>
+        </div>
       </div>
-      <div className="p-8 pb-12">
-        <h3 className="mb-3 text-xl font-bold text-white">{title}</h3>
-        <p className="text-muted-foreground leading-relaxed">{description}</p>
+
+      <div
+        className="relative z-10 hidden flex-shrink-0 flex-col items-center lg:order-2 lg:flex"
+        style={{ width: "82px", minHeight: height, gap: "66px" }}
+      >
+        <div className="flex flex-col items-center">
+          <span
+            className="text-slate-60 font-sans font-semibold"
+            style={{
+              width: "71px",
+              height: "36px",
+              fontSize: "28px",
+              lineHeight: "100%",
+              letterSpacing: "0%",
+              textAlign: "center",
+            }}
+          >
+            Step
+          </span>
+          <span
+            className="font-sans font-bold text-amber-50"
+            style={{
+              width: "68px",
+              height: "83px",
+              fontSize: "64px",
+              lineHeight: "100%",
+              letterSpacing: "-1%",
+              textAlign: "center",
+            }}
+          >
+            {step}
+          </span>
+        </div>
+
+        {step !== "03" && (
+          <div
+            className="border-slate-60 flex-grow border-l-[4px]"
+            style={{ width: "0px" }}
+          />
+        )}
+      </div>
+
+      <div className="order-first mb-2 flex items-center gap-2 lg:hidden">
+        <span className="text-slate-60 font-sans text-lg font-semibold">Step</span>
+        <span className="font-sans text-4xl font-bold text-amber-50">{step}</span>
+      </div>
+
+      <div
+        className={`flex w-full flex-1 items-center justify-center ${
+          isReversed ? "lg:order-1" : "lg:order-3"
+        }`}
+      >
+        <div
+          className="relative w-full max-w-[404px] overflow-hidden"
+          style={{
+            height: imageLayout?.height || "400px",
+            borderRadius: imageLayout?.borderRadius || "8px",
+            padding: imageLayout?.padding || "0px",
+          }}
+        >
+          <div
+            className="absolute inset-0 hidden lg:block"
+            style={{
+              marginTop: imageLayout?.marginTop || "0px",
+              marginBottom: imageLayout?.marginBottom || "0px",
+            }}
+          />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover lg:object-contain"
+            style={{
+              borderRadius: imageLayout?.borderRadius || "8px",
+            }}
+            sizes="(max-width: 1024px) 100vw, 404px"
+          />
+        </div>
       </div>
     </div>
   )
@@ -32,47 +136,110 @@ const StepCard = ({ title, description, image }: StepCardProps) => {
 export const HowItWorks = () => {
   const steps = [
     {
+      step: "01",
       title: "Select your Inverter type",
       description:
-        "Hundreds of integrations available from our wide range of inverter types.",
+        "EnergyIQ supports multiple inverter brands used across Nigerian businesses. Select your inverter to securely sync your energy data and unlock real-time monitoring, AI-powered insights, smart alerts, and savings analytics.",
       image: "/images/how_it_works_1.png",
+      isReversed: false,
+      height: "544px",
+      imageLayout: {
+        width: "400px",
+        height: "395px",
+        borderRadius: "8px",
+        marginTop: "74.5px",
+        marginBottom: "74.5px",
+      },
     },
     {
+      step: "02",
       title: "Connect your Inverter",
-      description: "Establish inverter connection through API keys.",
+      description:
+        "Connect your inverter system securely using your inverter credentials or API access to begin monitoring your energy performance, battery health, solar output, generator usage, and operational savings in one intelligent dashboard.",
       image: "/images/how_it_works_2.png",
+      isReversed: true,
+      height: "544px",
+      imageLayout: {
+        width: "400px",
+        height: "400px",
+        borderRadius: "8px",
+        padding: "10px",
+        marginTop: "72px",
+        marginBottom: "72px",
+      },
     },
     {
+      step: "03",
       title: "Move to Dashboard",
-      description: "View and manage inverter metrics that matter to you.",
+      description:
+        "You’re all set. Your inverter has been successfully connected and EnergyIQ is now ready to monitor your energy system in real time. Access your dashboard to track performance, receive smart alerts, analyze savings, and gain AI-powered insights into your power usage, insights, smart alerts, and savings analytics.",
       image: "/images/how_it_works_3.png",
+      isReversed: false,
+      height: "321px",
+      imageLayout: {
+        width: "404px",
+        height: "321px",
+        borderRadius: "8px",
+        marginTop: "64px",
+        marginBottom: "100px",
+      },
+      isSpecialCard: true,
     },
   ]
 
   return (
-    <section className="section-padding text-foreground w-full bg-[#F7F7F799] py-16 md:py-24">
-      <div className="container-padding mx-auto w-full max-w-7xl">
-        <div className="mb-12 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-center">
-          <h2 className="text-[32px] font-bold md:text-[48px]">
-            How it <span className="text-primary">Works</span>
-          </h2>
-
-          <Button
-            size="lg"
-            className="bg-primary text-secondary hover:bg-primary/90 px-8 py-6"
-          >
-            Try for Free
-          </Button>
+    <section className="w-full bg-white">
+      <div className="relative mx-auto h-[420px] w-full max-w-[1440px] overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/how_it_works.png"
+            alt="How it works background"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="container-padding relative z-10 mx-auto flex h-full flex-col items-center justify-center text-center">
+          <h2
+            className="text-surface-40 font-sans text-[32px] leading-[100%] font-bold tracking-[-1%] md:text-[48px]"
+            style={{ width: "min(100%, 691px)" }}
+          >
+            How it works
+          </h2>
+          <p
+            className="text-muted-foreground mt-6 font-sans text-[16px] leading-[130%] font-medium md:text-[18px]"
+            style={{ width: "min(100%, 691px)" }}
+          >
+            Connect your inverter, monitor your energy system in real time, and receive
+            intelligent insights that help reduce fuel costs and improve performance.
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-surface-50 mx-auto flex w-full max-w-[1440px] flex-col items-center px-[20px] pb-[100px] md:px-[80px]">
+        <div className="flex w-full flex-col items-center">
           {steps.map((step, index) => (
-            <StepCard
+            <div
               key={index}
-              title={step.title}
-              description={step.description}
-              image={step.image}
-            />
+              className="flex w-full justify-center"
+              style={{ marginTop: index === 0 ? "100px" : "64px" }}
+            >
+              <StepCard
+                step={step.step}
+                title={step.title}
+                description={step.description}
+                image={step.image}
+                isReversed={step.isReversed}
+                height={step.height}
+                imageLayout={{
+                  ...step.imageLayout,
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                }}
+                isSpecialCard={step.isSpecialCard}
+              />
+            </div>
           ))}
         </div>
       </div>

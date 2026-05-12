@@ -1,6 +1,8 @@
 "use client"
-import { useState } from "react"
+
+import { useState, useMemo } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Button } from "../ui/button"
 import { Logo } from "../ui/logo"
 import { cn } from "@/lib/utils"
@@ -22,6 +24,7 @@ const IconMenu = ({ className }: { className?: string }) => (
     />
   </svg>
 )
+
 const IconX = ({ className }: { className?: string }) => (
   <svg
     width="24"
@@ -39,51 +42,79 @@ const IconX = ({ className }: { className?: string }) => (
     />
   </svg>
 )
+
 const links = [
-  { label: "Features", href: "#features" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Faq", href: "#faq" },
+  { label: "Features", href: "/#features" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Faq", href: "/#faq" },
+  { label: "About Us", href: "/about" },
 ]
+
 export function Navbar() {
   const [open, setOpen] = useState(false)
-  const [activeLink, setActiveLink] = useState("Features")
+  const [selectedLabel, setSelectedLabel] = useState("Features")
+  const pathname = usePathname()
+
+  // Compute the active label from pathname, preserving click-based updates
+  const activeLabel = useMemo(() => {
+    if (pathname === "/about") {
+      return "About Us"
+    }
+
+    if (pathname === "/") {
+      // On home page, keep the user's clicked section highlight
+      return selectedLabel
+    }
+
+    return selectedLabel
+  }, [pathname, selectedLabel])
+
   return (
     <header className="bg-background sticky top-0 z-50 w-full">
-      <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 md:h-20 md:px-8">
+      <nav className="mx-auto flex h-16 max-w-350 items-center justify-between px-4 md:h-20 md:px-8">
         <Logo size="md" />
+
         <ul className="hidden items-center gap-8 md:flex">
           {links.map((l) => {
-            const isActive = activeLink === l.label
+            const isActive = activeLabel === l.label
+
             return (
               <li key={l.label}>
-                <a
+                <Link
                   href={l.href}
-                  onClick={() => setActiveLink(l.label)}
+                  onClick={() => setSelectedLabel(l.label)}
                   className={cn(
                     "text-sm transition-colors duration-200",
                     isActive
                       ? "text-foreground font-semibold"
-                      : "text-foreground/50 font-medium"
+                      : "text-foreground/50 hover:text-foreground font-medium"
                   )}
                 >
                   {l.label}
-                </a>
+                </Link>
               </li>
             )
           })}
         </ul>
+
         <div className="hidden items-center gap-3 md:flex">
           <Button
             variant="outline"
             className="border-foreground/20 text-foreground hover:bg-background/90 h-10 rounded-md px-6 font-medium"
+            asChild
           >
             <Link href="/login">Sign In</Link>
           </Button>
-          <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-10 rounded-md px-5 font-medium">
+
+          <Button
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-10 rounded-md px-5 font-medium"
+            asChild
+          >
             <Link href="/signup">Get Started</Link>
           </Button>
         </div>
+
         <Button
           variant="ghost"
           aria-label="Toggle menu"
@@ -93,41 +124,34 @@ export function Navbar() {
           {open ? <IconX className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
         </Button>
       </nav>
+
+      {/* Mobile Menu */}
       <div
         className={cn(
-          "border-border bg-background overflow-hidden border-t md:hidden",
-          open ? "max-h-96" : "max-h-0",
-          "transition-all duration-300"
+          "border-border bg-background overflow-hidden border-t transition-all duration-300 md:hidden",
+          open ? "max-h-96" : "max-h-0"
         )}
       >
         <ul className="flex flex-col items-center gap-2 px-4 py-6 text-center">
           {links.map((l) => (
             <li key={l.label} className="w-full">
-              <a
+              <Link
                 href={l.href}
                 onClick={() => {
-                  setActiveLink(l.label)
+                  setSelectedLabel(l.label)
                   setOpen(false)
                 }}
                 className={cn(
                   "block w-full rounded-lg px-3 py-3 text-sm transition-colors",
-                  activeLink === l.label
-                    ? "text-foreground font-semibold"
+                  activeLabel === l.label
+                    ? "text-foreground bg-muted/50 font-semibold"
                     : "text-foreground/60 hover:text-foreground font-medium"
                 )}
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
-          <li className="mt-4 flex w-full flex-col gap-2">
-            <Button variant="outline" className="border-foreground/20 w-full rounded-md">
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button className="bg-secondary text-secondary-foreground w-full rounded-md">
-              <Link href="/signup">Get Started</Link>
-            </Button>
-          </li>
         </ul>
       </div>
     </header>
