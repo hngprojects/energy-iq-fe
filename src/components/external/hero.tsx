@@ -37,12 +37,12 @@ export function Hero() {
                   <Link href="/signup">Get Started</Link>
                 </Button>
 
-                {/* <Button
+                 <Button
                   size="lg"
                   className="bg-primary text-foreground hover:bg-primary/90 hidden h-12 rounded-md px-7 font-medium md:inline-flex"
                 >
-                  <Link href="/login">Contact Us</Link>
-                </Button> */}
+                  <Link href="/contact">Contact Us</Link>
+                </Button> 
               </div>
             </div>
 
