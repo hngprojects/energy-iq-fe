@@ -45,7 +45,7 @@ const IconX = ({ className }: { className?: string }) => (
 
 const links = [
   { label: "Features", href: "/#features" },
-  { label: "How It Works", href: "/#how-it-works" },
+  { label: "How It Works", href: "/how-it-works" },
   { label: "Pricing", href: "/#pricing" },
   { label: "Faq", href: "/#faq" },
   { label: "About Us", href: "/about" },
