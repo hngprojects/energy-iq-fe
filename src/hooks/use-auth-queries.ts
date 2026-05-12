@@ -7,13 +7,17 @@ import { toast } from "sonner"
 export const useAuthQueries = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
-  const { setAuth, logout: storeLogout } = useAuthStore()
+  const { setAuth, logout: storeLogout, token: currentToken } = useAuthStore()
 
   const useLogin = () =>
     useMutation({
       mutationFn: AuthService.login,
       onSuccess: (data) => {
-        setAuth(data.user, data.accessToken, data.refreshToken)
+        const token = data.accessToken
+        const user = data.user
+        const refreshToken = data.refreshToken
+
+        setAuth(user, token, refreshToken)
         toast.success("Welcome back!")
         router.push("/onboarding")
       },
@@ -80,7 +84,7 @@ export const useAuthQueries = () => {
     useQuery({
       queryKey: ["auth-me"],
       queryFn: AuthService.me,
-      enabled: typeof window !== "undefined" && !!localStorage.getItem("token"),
+      enabled: !!currentToken,
     })
 
   return {
