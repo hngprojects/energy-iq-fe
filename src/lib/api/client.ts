@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { ApiError } from "./error"
 import { env } from "@/env/server"
+import { useAuthStore } from "@/stores/auth-store"
 
 const isAbsoluteUrl = (path: string): boolean => /^https?:\/\//i.test(path)
 const isInternalApiPath = (path: string): boolean => path.startsWith("/api/")
@@ -55,10 +56,7 @@ export async function apiFetch<TResponse>(
 
   // Automatically attach Authorization header if not present
   if (!headers["Authorization"]) {
-    let token: string | null = null
-    if (typeof window !== "undefined") {
-      token = localStorage.getItem("token")
-    }
+    const token = !isServer ? useAuthStore.getState().token : null
 
     if (token && token !== "undefined" && token !== "null") {
       headers["Authorization"] = `Bearer ${token}`
@@ -108,8 +106,8 @@ export async function apiFetch<TResponse>(
       const status = err.response?.status ?? 500
 
       if (status === 401 && typeof window !== "undefined") {
-        // Clear auth tokens on 401
-        localStorage.removeItem("token")
+        // Clear auth tokens via Zustand on 401
+        useAuthStore.getState().logout()
         window.location.replace("/login")
       }
 
