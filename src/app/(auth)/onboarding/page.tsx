@@ -37,7 +37,7 @@ export default function OnboardingPage() {
           inverter && (
             <>
               <AuthHeader
-                title={`${INVERTER_CONFIG[inverter].name} Inverter Connection`}
+                title={`${INVERTER_CONFIG[inverter.toLowerCase()]?.name || inverter} Inverter Connection`}
                 subtitle="Enter specific details of your inverter type"
               />
               <InverterConnectionStep
