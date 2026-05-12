@@ -11,7 +11,7 @@ interface ServiceCardProps {
 
 const ServiceCard = ({ title, description, image }: ServiceCardProps) => {
   return (
-    <div className="group bg-dark-alt overflow-hidden rounded-[12px] shadow-xl">
+    <div className="group bg-dark-alt flex h-full flex-col overflow-hidden rounded-[12px] shadow-xl">
       <div className="relative aspect-video w-full overflow-hidden md:aspect-4/3">
         <Image
           src={image}
@@ -21,7 +21,7 @@ const ServiceCard = ({ title, description, image }: ServiceCardProps) => {
           className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
       </div>
-      <div className="bg-secondary flex items-center justify-between gap-4 p-8 pb-10">
+      <div className="bg-secondary flex flex-1 items-center justify-between gap-4 p-8 pb-10">
         <div className="space-y-2">
           <h3 className="text-xl font-bold tracking-tight text-white">{title}</h3>
           <p className="text-muted-foreground leading-relaxed">{description}</p>

@@ -150,7 +150,10 @@ export function AuthLoginForm() {
 
           <p className="text-grey-light text-xs font-normal capitalize md:text-base md:leading-none">
             By signing in, you agree to our{" "}
-            <Link href="/terms" className="text-grey-light font-bold hover:underline">
+            <Link
+              href="/terms-and-conditions"
+              className="text-grey-light font-bold hover:underline"
+            >
               Terms of Service
             </Link>{" "}
             and{" "}
