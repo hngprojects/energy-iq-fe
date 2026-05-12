@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { ApiError } from "./error"
 import { env as serverEnv } from "@/env/server"
-import { env } from "@/env/server"
 import { useAuthStore } from "@/stores/auth-store"
 
 const isAbsoluteUrl = (path: string): boolean => /^https?:\/\//i.test(path)
