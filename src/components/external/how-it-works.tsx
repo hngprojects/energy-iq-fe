@@ -189,26 +189,22 @@ export const HowItWorks = () => {
 
   return (
     <section className="w-full bg-white">
-      <div className="relative mx-auto h-[420px] w-full max-w-[1440px] overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/how_it_works.png"
-            alt="How it works background"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
+      <div className="bg-secondary relative h-[300px] w-full overflow-hidden md:h-[400px]">
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center opacity-40"
+          style={{ backgroundImage: "url('/images/panels.jpg')" }}
+        />
+        <div className="from-secondary/40 via-secondary/60 to-secondary absolute inset-0 z-10 bg-gradient-to-b" />
 
-        <div className="container-padding relative z-10 mx-auto flex h-full flex-col items-center justify-center text-center">
+        <div className="container-padding relative z-20 mx-auto flex h-full flex-col items-center justify-center text-center">
           <h2
-            className="text-surface-40 font-sans text-[32px] leading-[100%] font-bold tracking-[-1%] md:text-[48px]"
+            className="font-sans text-[32px] leading-[100%] font-bold tracking-[-1%] text-white md:text-[48px]"
             style={{ width: "min(100%, 691px)" }}
           >
             How it works
           </h2>
           <p
-            className="text-muted-foreground mt-6 font-sans text-[16px] leading-[130%] font-medium md:text-[18px]"
+            className="mt-6 font-sans text-[16px] leading-[130%] font-medium text-slate-50 md:text-[18px]"
             style={{ width: "min(100%, 691px)" }}
           >
             Connect your inverter, monitor your energy system in real time, and receive
@@ -246,3 +242,5 @@ export const HowItWorks = () => {
     </section>
   )
 }
+
+export default HowItWorks

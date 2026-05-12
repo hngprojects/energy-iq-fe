@@ -18,9 +18,6 @@ export default function Home() {
         <WorksWith />
         <Services />
       </section>
-      <section id="how-it-works" className="w-full px-6">
-        <HowItWorks />
-      </section>
       <RequestDemo />
       <TestimonialsSection />
       <section id="pricing" className="w-full">
