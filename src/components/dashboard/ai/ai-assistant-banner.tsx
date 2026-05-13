@@ -1,4 +1,6 @@
 import { ArrowUpRight } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ChatBotIcon } from "@hugeicons/core-free-icons"
 
 const suggestions = [
   "Why is my battery low?",
@@ -8,7 +10,7 @@ const suggestions = [
 
 export function AIAssistantBanner() {
   return (
-    <div className="bg-secondary text-secondary-foreground rounded-2xl p-5 lg:p-6">
+    <div className="bg-secondary text-secondary-foreground hidden rounded-2xl p-5 lg:block lg:p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h3 className="text-lg font-semibold">Have a question about your energy?</h3>
@@ -33,6 +35,31 @@ export function AIAssistantBanner() {
           ))}
         </div>
       </div>
+    </div>
+  )
+}
+
+const FloatingAIButton = () => {
+  return (
+    <div className="fixed right-6 bottom-6 z-50 flex flex-col items-center lg:hidden">
+      <div className="mb-2 rounded-full border-2 border-black bg-white px-4 py-1 shadow-lg">
+        <span className="text-sm font-bold whitespace-nowrap text-black">
+          Chat with AI
+        </span>
+      </div>
+
+      <button className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/10 bg-black shadow-2xl transition-transform active:scale-95">
+        <HugeiconsIcon icon={ChatBotIcon} size={32} color="white" strokeWidth={1.5} />
+      </button>
+    </div>
+  )
+}
+
+export const AiBanner = () => {
+  return (
+    <div className="py-6">
+      <FloatingAIButton />
+      <AIAssistantBanner />
     </div>
   )
 }

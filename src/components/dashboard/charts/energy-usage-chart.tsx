@@ -1,6 +1,12 @@
 "use client"
 
-import { ChevronDown } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   ResponsiveContainer,
   LineChart,
@@ -45,6 +51,52 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   )
 }
 
+export function PeriodSelect() {
+  return (
+    <Select defaultValue="weekly">
+      <SelectTrigger className="border-border h-10 w-28 rounded-lg border bg-white px-4 transition-all focus:ring-0 focus:ring-offset-0">
+        <SelectValue />
+      </SelectTrigger>
+
+      <SelectContent
+        position="popper"
+        side="bottom"
+        align="end"
+        sideOffset={4}
+        className="border-border min-w-40 rounded-lg border bg-white"
+      >
+        <SelectItem
+          value="hourly"
+          className="border-border data-[state=checked]:[#EDEDED] cursor-pointer rounded-none border-b px-4 py-2 focus:bg-slate-50 data-[state=checked]:font-semibold"
+        >
+          Hourly
+        </SelectItem>
+
+        <SelectItem
+          value="daily"
+          className="border-border data-[state=checked]:[#EDEDED] cursor-pointer rounded-none border-b px-4 py-2 focus:bg-slate-50 data-[state=checked]:font-semibold"
+        >
+          Daily
+        </SelectItem>
+
+        <SelectItem
+          value="weekly"
+          className="border-border data-[state=checked]:[#EDEDED] cursor-pointer rounded-none border-b px-4 py-2 focus:bg-slate-200 data-[state=checked]:font-semibold"
+        >
+          Weekly
+        </SelectItem>
+
+        <SelectItem
+          value="monthly"
+          className="data-[state=checked]:[#EDEDED] cursor-pointer rounded-none px-4 py-2 focus:bg-slate-50 data-[state=checked]:font-semibold"
+        >
+          Monthly
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  )
+}
+
 export function EnergyUsageChart({ data }: { data: Row[] }) {
   return (
     <div className="border-border bg-card rounded-2xl border p-5 lg:p-6">
@@ -55,9 +107,7 @@ export function EnergyUsageChart({ data }: { data: Row[] }) {
             How much your panels generated vs how much power you used
           </p>
         </div>
-        <button className="border-border hover:bg-accent inline-flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-1.5 text-sm transition-colors">
-          Weekly <ChevronDown className="h-4 w-4" />
-        </button>
+        <PeriodSelect />
       </div>
       <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">

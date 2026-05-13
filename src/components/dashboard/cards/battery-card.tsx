@@ -1,4 +1,4 @@
-import { BatteryMedium } from "lucide-react"
+import { BatteryCharging } from "lucide-react"
 import { MetricCard } from "./metric-card"
 import { ProgressBar } from "../shared/progress-bar"
 
@@ -11,7 +11,7 @@ export function BatteryCard({
 }) {
   return (
     <MetricCard
-      icon={BatteryMedium}
+      icon={BatteryCharging}
       iconClass="text-foreground"
       label="Battery"
       value={`${percent}%`}
